@@ -5,3 +5,60 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+# Helper functions
+def open_asset(file_name)
+  File.open(Rails.root.join('db', 'seed_assets', file_name))
+end
+
+# Only run on development (local) instances not on production, etc.
+unless Rails.env.development?
+  puts "Development seeds only (for now)!"
+  exit 0
+end
+
+
+puts 'Starting the seeds'
+
+
+Category.destroy_all
+User.destroy_all
+Question.destroy_all
+Comment.destroy_all
+
+ActiveRecord::Base.connection.tables.each do |t|
+  ActiveRecord::Base.connection.reset_pk_sequence!(t)
+end
+
+
+
+Category.create(category: 'video games')
+Category.create(category: 'sport')
+Category.create(category: 'movies')
+Category.create(category: 'social')
+Category.create(category: 'food')
+
+User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image01.png'))
+User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image02.png'))
+User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image03.png'))
+User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image04.png'))
+User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image05.png'))
+User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image06.png'))
+
+
+Question.create(category_id: 1, user_id: 1, title: 'Do you guys like Call of Duty or Halo?', answer_a: 'Call of Duty', answer_b: 'Halo', vote_a: 30, vote_b: 25)
+Question.create(category_id: 2, user_id: 1, title: 'Which one you are into?', answer_a: 'Soccer', answer_b: 'Baseball', vote_a: 143, vote_b: 95)
+Question.create(category_id: 3, user_id: 2, title: 'Are you a fan of movies or series?', answer_a: 'Movies', answer_b: 'Series', vote_a: 67, vote_b: 55)
+Question.create(category_id: 3, user_id: 3, title: 'Should I watch Games Of Thrones or Beaking Bad?', answer_a: 'Games Of Thrones', answer_b: 'Breaking Bad', vote_a: 230, vote_b: 125)
+Question.create(category_id: 4, user_id: 4, title: 'Should all people have the right to own guns?', answer_a: 'Yes', answer_b: 'No', vote_a: 430, vote_b: 925)
+
+Comment.create(question_id: 1, user_id:6, comment: 'I like COD, the game speed is much better!')
+Comment.create(question_id: 1, user_id:5, comment: 'Only Haloooo!')
+Comment.create(question_id: 1, user_id:4, comment: 'There are more players on CoD')
+Comment.create(question_id: 2, user_id:3, comment: 'Only Soccerrrrrr!')
+Comment.create(question_id: 2, user_id:2, comment: 'Not comparable!')
+
+
+puts 'Seeding Done!'
+
+
