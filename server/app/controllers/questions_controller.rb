@@ -1,10 +1,8 @@
 class QuestionsController < ApplicationController
+
   def index
-    @question = Question.find 1
-    @comments = @question.comments
-    render json: {
-      question: @question,
-      comments: @comments
-    }
+    category = Category.find params[:category_id]
+    render json: category.questions
   end
+
 end
