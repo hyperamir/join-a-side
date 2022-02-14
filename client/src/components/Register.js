@@ -1,28 +1,33 @@
-import { useState } from'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase-config'
+import { useState } from 'react';
+import {getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 export default function Register(props) {
 
-  const [registerEmail, setRegisterEmail] = useState("")
-  const [registerPassword, setRegisterPassword] = useState("")
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
 
   const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-      console.log(user)
-    } catch (error) {
-      console.log(error.message)
-    }
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+    .then((userCredential) => {
+      const user = userCredential.user;
+    })
+    .catch((error) => {
+      console.log(error)
+      const errorCode = error.code;
+      const errorMessage = error.message
+    });
   }
 
   return (
-    <div class="login">
+    <div className="register">
       <h3> Register new User </h3>
       <form>
         <div>
           <label>UserEmail</label>
           <input placeholder="enter UserEmail here" 
-            onChange={(event) => {setRegisterEmail(event.target.value)}}
+            onChange={(event) => {
+              setRegisterEmail(event.target.value)
+            }}
           />
         </div>
         <div>
@@ -31,7 +36,7 @@ export default function Register(props) {
             onChange={(event) => {setRegisterPassword(event.target.value)}}
           />
         </div>
-        <button onClick={register}>Submit</button>
+        <button type="button" onClick={register}>Submit</button>
       </form>     
     </div>
  

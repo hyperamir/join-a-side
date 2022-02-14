@@ -1,22 +1,31 @@
-import { useState } from'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase-config';
+import { useState } from 'react';
+import {getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+//import { auth } from '../service/firebase';
 export default function Login(props) {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
+  
   const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-      console.log(user)
-    } catch (error) {
-      console.log(error.message)
-    }
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+      .then((userCredential) => {
+        // Signed in 
+        console.log("good")
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage)
+      });
   }
  
   return (
-    <div class="login">
+    <div className="login">
       <h3> Login </h3>
       <form>
         <div>
@@ -31,7 +40,7 @@ export default function Login(props) {
             onChange={(event) => {setLoginPassword(event.target.value)}}
           />
         </div>
-        <button onClick={login}>Submit</button>
+        <button type="button" onClick={login}>Submit</button>
       </form>     
     </div>
  

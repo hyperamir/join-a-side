@@ -1,15 +1,14 @@
-import { useState } from'react';
-import { auth } from '../firebase-config'
-import { signOut } from 'firebase/auth';
+import { signOut, getAuth } from 'firebase/auth';
 export default function LogoutButton(props) {
   
 
   const logout = async () => {
-    await signOut(auth);
+    const auth = getAuth();
+    auth.signOut();
   }
 
   return (
-    <div class="login">
+    <div className="logoutButton">
       <h3> Login </h3>
         <button onClick={logout}>Submit</button>
     </div>
