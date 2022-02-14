@@ -9,7 +9,7 @@ export default function Question(props) {
       <div class="mt-4">
         <a class="text-lg text-gray-700 font-medium" href="#">Question by the user</a>
       </div>
-      <div class="flex flex-row justify-center p-8">
+      <div class="flex flex-row justify-between p-8">
         <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
           Answer 1
         </button>

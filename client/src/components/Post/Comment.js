@@ -5,7 +5,7 @@ export default function Comment(props) {
     <div class="flex flex-row justify-center">
 
       {/* Comment section for Answer 1 */}
-      <div class="flex items-center justify-center p-4">
+      <div class="flex items-center justify-center p-2">
         <div class="bg-white shadow-xl border p-8 w-3xl">
           <div class="mb-4">
             <h1 class="font-semibold text-gray-800">Comments Answer 1</h1>
