@@ -15,15 +15,7 @@ import axios from 'axios'
 
 
 function App() {
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/categories').then((response) => {
-      console.log('data from back end!!: ')
-      console.log(response)
-    }).catch(e => {
-      console.log('error:', e)
-    })
-  }, [])
+  
 
   // changes user 
   //const [user, setUser] = useState({});
@@ -46,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar></Navbar>
+      <Navbar />
       <SubmitForm></SubmitForm>
       <Post></Post>
       <p>login: {user}</p>
