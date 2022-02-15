@@ -62,7 +62,7 @@ export default function SubmitForm(props) {
 
             {/* Buttons */}
             <button className="flex-shrink-0 bg-indigo-500 hover:bg-indigo-700 border-indigo-500 hover:border-indigo-700 text-sm border-4 text-white py-1 px-2 mt-6 rounded" type="button">
-              Sign Up
+              Submit
             </button>
             <button className="flex-shrink-0 border-transparent border-4 text-indigo-500 hover:text-indigo-800 text-sm py-1 px-2 rounded" type="button">
               Cancel
