@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
 import "./styles.scss";
-import Category from './category';
+import CategoryList from './CategoryList';
 import axios from 'axios';
 
 export default function Navbar(props) {
@@ -20,7 +20,7 @@ export default function Navbar(props) {
   }, [])
 
   const parsedCategories = categories.map(category => {
-    return <Category key={category.id} category= {category.category}/>
+    return <CategoryList key={category.id} category= {category.category}/>
   })
 
   return (
