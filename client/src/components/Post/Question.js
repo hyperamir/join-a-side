@@ -6,7 +6,7 @@ export default function Question(props) {
 
       {/* Category */}
       <div className="flex justify-center items-center">
-        <a className="px-2 py-1 bg-gray-600 text-sm text-green-100 rounded" href="#">Category</a>
+        <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Category 1</a>
       </div>
 
       {/* Question */}
