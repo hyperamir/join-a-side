@@ -2,7 +2,7 @@ import "./Question.scss";
 
 export default function Question(props) {
   return (
-    <div className="flex flex-col bg-white px-8 py-6 max-w-lg mx-auto rounded-lg shadow-lg">
+    <div className="flex flex-col bg-white px-8 py-6 max-w-lg mx-auto rounded-lg shadow-xl border">
       <div className="flex justify-center items-center">
         <a className="px-2 py-1 bg-gray-600 text-sm text-green-100 rounded" href="#">Category</a>
       </div>

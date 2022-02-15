@@ -1,6 +1,7 @@
 import './App.scss';
 import Navbar from './components/Navbar';
 import Post from './components/Post';
+import SubmitForm from './components/SubmitForm/SubmitForm';
 import logo from './logo.svg';
 import { useEffect, useState } from 'react';
 import './App.scss';
@@ -46,7 +47,7 @@ function App() {
   return (
     <div className="App">
       <Navbar></Navbar>
-
+      <SubmitForm></SubmitForm>
       <Post></Post>
       <p>login: {user}</p>
       <Register />
