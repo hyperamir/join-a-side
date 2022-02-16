@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { getVotePercent } from '../helpers/votePercent';
 import axios from 'axios';
+
+import "./Post/Vote.scss";
+import "./Post/Question.scss";
 
 export default function QuestionList(props) {
   const [category, setCategory] = useState([]);
@@ -41,20 +45,20 @@ export default function QuestionList(props) {
                   </button>
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-center p-4">
                 <div className="bg-white shadow-xl border p-8 w-3/6">
                 
-                {/* Status Bar */}
-                <div className="container">
-                  <div className="votes bar"></div>
-                </div>
+                  {/* Status Bar */}
+                  <div className="container">
+                    <div className="votes bar" style={{width: getVotePercent(question.vote_a, question.vote_b) }}></div>
+                  </div>
 
-                {/* Votes */}
-                <div className="flex flex-row justify-between">
-                  <p>{question.vote_a}</p>
-                  <p>{question.vote_b}</p>
-                </div>
+                  {/* Votes */}
+                  <div className="flex flex-row justify-between">
+                    <p>{question.vote_a}</p>
+                    <p>{question.vote_b}</p>
+                  </div>
                 </div>
               </div>
             </Link>
