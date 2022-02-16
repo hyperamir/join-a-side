@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function QuestionList(props) {
@@ -10,7 +11,7 @@ export default function QuestionList(props) {
   useEffect(() => {
     axios.get(`http://localhost:3000/categories/${params.id}/questions`)
       .then((response) => {
-        // console.log('response from backend:', response.data)
+        console.log('response from backend:', response.data)
         setCategory(response.data);
       })
       .catch(() => {
@@ -23,11 +24,15 @@ export default function QuestionList(props) {
       {
         category.map(question => {
           return (
-            <div key={question.id}>
+            <Link key={question.id} to="/">
+            <div>
               <h2>{question.title}</h2>
               <h3>{question.answer_a} </h3>
               <h3>{question.answer_b} </h3>
+              <h3>{question.vote_a} </h3>
+              <h3>{question.vote_b} </h3>
             </div>
+            </Link>
           )
         })
       }

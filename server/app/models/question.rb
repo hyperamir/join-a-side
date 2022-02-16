@@ -3,5 +3,5 @@ class Question < ApplicationRecord
   belongs_to :user
 
   has_many :comments, dependent: :destroy
-  has_many :votes, dependent: :destroy
+  has_one :vote, dependent: :destroy
 end
