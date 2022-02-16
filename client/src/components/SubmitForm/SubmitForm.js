@@ -1,4 +1,35 @@
+import React, {useEffect, useState} from "react";
+import axios from "axios"
+import Category from "./Catagory"
 export default function SubmitForm(props) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getAllCategorys();
+  }, []); 
+
+  const getAllCategorys = () => {
+    // localhost should not be hardcoded in should be a proxy api
+    axios.get("http://localhost:3000/categories")
+  .then(response => {
+    setCategories(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+  }
+
+  const categorysComponents = categories.map((value) => {
+    return(
+      <Category 
+        key={value.id}
+        category={value.category}
+      />
+    );
+  });
+
+ 
+
   return (
     <div className="flex justify-center">
       <div className="flex items-center justify-center p-2">
@@ -11,7 +42,7 @@ export default function SubmitForm(props) {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                   Question to Submit
                 </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="password" placeholder="ex. apples or bananas?" />
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />
                 <p className="text-gray-600 text-xs italic">Maximum 80 Characters</p>
               </div>
             </div>
@@ -43,9 +74,10 @@ export default function SubmitForm(props) {
                 </label>
                 <div className="relative">
                   <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
-                    <option>Category 1</option>
+                    {/* <option>Category 1</option>
                     <option>Category 2</option>
-                    <option>Category 3</option>
+                    <option>Category 3</option> */}
+                    {categorysComponents}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
