@@ -48,6 +48,7 @@ function App() {
         {/* Add components here which will be re-rendered */}
         <Routes>
           <Route path="/" element={<Post />} />
+          <Route path="/categories/:id" element={<Post />} />
           <Route path="/users" element={<SubmitForm />}/>
           <Route path="/signup" element={<Register/>}/>
           <Route path="/login" element={<Login />}/>
