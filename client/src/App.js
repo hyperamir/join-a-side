@@ -14,7 +14,7 @@ import LogoutButton from './components/LogoutButton'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import "./service/firebase"
 import axios from 'axios'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 
 
 function App() {
@@ -51,6 +51,9 @@ function App() {
           <Route path="/users" element={<SubmitForm />}/>
           <Route path="/signup" element={<Register/>}/>
           <Route path="/login" element={<Login />}/>
+
+          {/* Send users to this route if such url doesn't exist */}
+          <Route path="*" element={<Navigate to="/"/>}/>
         </Routes>
       </div>
     </Router>

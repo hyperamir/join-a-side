@@ -67,7 +67,7 @@ export default function Navbar(props) {
           {/* Links nav to route */}
           <Link to="/users">
             <a href="#" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
-              Posts
+              Create Posts
             </a>
           </Link>
 
