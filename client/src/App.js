@@ -15,7 +15,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import "./service/firebase"
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-
+import QuestionList from './components/QuestionList';
 
 function App() {
   
@@ -51,6 +51,7 @@ function App() {
           <Route path="/users" element={<SubmitForm />}/>
           <Route path="/signup" element={<Register/>}/>
           <Route path="/login" element={<Login />}/>
+          <Route path="/categories/:id" element={<QuestionList />}/>
 
           {/* Send users to this route if such url doesn't exist */}
           <Route path="*" element={<Navigate to="/"/>}/>
