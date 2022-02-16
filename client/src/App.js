@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import './App.scss';
 import Navbar from './components/Navbar';
 import Post from './components/Post';
@@ -12,6 +14,7 @@ import LogoutButton from './components/LogoutButton'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import "./service/firebase"
 import axios from 'axios'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 
 function App() {
@@ -37,15 +40,20 @@ function App() {
   console.log(user);
 
   return (
-    <div className="App">
-      <Navbar />
-      <SubmitForm></SubmitForm>
-      <Post></Post>
-      <p>login: {user}</p>
-      <Register />
-      <Login />
-      <LogoutButton />
-    </div>
+    <Router>
+      <div className="App">
+        {/* Add components here which will be rendered in all routes */}
+        <Navbar />
+
+        {/* Add components here which will be re-rendered */}
+        <Routes>
+          <Route path="/" element={<Post />} />
+          <Route path="/users" element={<SubmitForm />}/>
+          <Route path="/signup" element={<Register/>}/>
+          <Route path="/login" element={<Login />}/>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

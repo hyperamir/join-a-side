@@ -4,6 +4,7 @@ import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import
 import "./styles.scss";
 import CategoryList from './CategoryList';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 export default function Navbar(props) {
   
@@ -29,7 +30,9 @@ export default function Navbar(props) {
       {/* Logo */}
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <FontAwesomeIcon icon={solid('user-secret')} />
-        <span className="font-semibold text-xl tracking-tight pl-4">Join a Side</span>
+        <Link to="/">
+          <span className="font-semibold text-xl tracking-tight pl-4">Join a Side</span>
+        </Link>
       </div>
 
       {/* Categories Selector */}
@@ -60,9 +63,15 @@ export default function Navbar(props) {
       </div>
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div className="loat-left text-md lg:flex-grow">
-          {/* <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
-            Posts
-          </a>
+
+          {/* Links nav to route */}
+          <Link to="/users">
+            <a href="#" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
+              Posts
+            </a>
+          </Link>
+
+          {/* 
           <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
             Examples
           </a>
@@ -73,10 +82,14 @@ export default function Navbar(props) {
 
         {/* Login && Register */}
         <div className="pr-4">
-          <a href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Register</a>
+          <Link to="/signup">
+            <a href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Register</a>
+          </Link>
         </div>
         <div>
-          <a href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Login</a>
+          <Link to="/login">
+            <a href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Login</a>
+          </Link>
         </div>
       </div>
     </nav>
