@@ -5,11 +5,12 @@ import Error from "./Error"
 export default function SubmitForm(props) {
   const [errorList, SetErrorList] = useState(["","","","",""]);
   const [categoriesList, setCategoriesList] = useState([]);
-  const [category, setCategory] = useState("");
   const [question, setQuestion] = useState("");
   const [option1, setOption1] = useState("");
   const [option2, setOption2] = useState("");
   const [user, setUser] = useState("");
+  const [category, setCategory] = useState("");
+
   
   useEffect(() => {
     getAllCategorys();
@@ -26,54 +27,68 @@ export default function SubmitForm(props) {
   })
   }
 
+  const reset = () => {
+    setQuestion("");
+    setOption1("");
+    setOption2("");
+    setUser("");
+    setCategory("");
+    SetErrorList(["","","","",""]);
+    
+
+  }
+
   const submit = () => {
     const errors = ["","","","",""];
-    // if (question.length <= 0 ) {
-    //   errors[0] = "Please fill out this field."
-    // }
     console.log(question);
     // question field 
     if (question.length <= 0 ) {
-      errors[0] = "Please fill out this field."
+      errors[0] = "Please fill out this field.";
     }
     else if (question.length > 80) {
-      errors[0] = "Please fill out this field."
+      errors[0] = "Char limit 80.";
     }
 
     // option 1 field
     console.log(option1);
     if (option1.length <= 0 ) {
-      errors[1] = "Please fill out this field."
+      errors[1] = "Please fill out this field.";
     }
     else if (option1.length > 80) {
-      errors[1] = "Please fill out this field."
+      errors[1] = "Char limit 80.";
     }
 
     console.log(option2);
     // option 2 field
     if (option2.length <= 0 ) {
-      errors[2] = "Please fill out this field."
+      errors[2] = "Please fill out this field.";
     }
     else if (option2.length > 80) {
-      errors[2] = "Please fill out this field."
+      errors[2] = "Char limit 80.";
+    }
+
+    console.log(user);
+    // user field
+    if (user.length <= 0 ) {
+      errors[3] = "Please fill out this field.";
+    }
+    else if (user.length > 80) {
+      errors[3] = "Char limit 80.";
     }
 
     console.log(category);
     // category field
     if (category.length <= 0 ) {
-      errors[3] = "Please Select a option field."
-    }
-    
-    console.log(user);
-    // user field
-    if (user.length <= 0 ) {
-      errors[4] = "Please fill out this field."
-    }
-    else if (user.length > 80) {
-      errors[4] = "Please fill out this field."
+      errors[4] = "Please Select a option field.";
     }
 
-    SetErrorList(errors)
+    let errorFound = false;
+    errors.forEach((error) => {
+      if (error !== "") {
+        errorFound = true;
+      }
+    })  
+    SetErrorList(errors);
   }
 
   // For category drop down
@@ -88,7 +103,6 @@ export default function SubmitForm(props) {
 
   // For error handleing
   const errorComponents = errorList.map((value) => {
-    console.log(value)
     return(
       <Error 
         key={value.id}
@@ -110,8 +124,8 @@ export default function SubmitForm(props) {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                   Question to Submit
                 </label>
-                { errorList[0] && <input onChange={(event) => {setQuestion(event.target.value)}} className=" border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />}
-                { !errorList[0] && <input onChange={(event) => {setQuestion(event.target.value)}} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />}
+                { errorList[0] && <input value={question} onChange={(event) => {setQuestion(event.target.value)}} className=" border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />}
+                { !errorList[0] && <input value={question} onChange={(event) => {setQuestion(event.target.value)}} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />}
                 <p className="text-gray-600 text-xs italic">Maximum 80 Characters</p>
                 {errorComponents[0]}
               </div>
@@ -121,8 +135,8 @@ export default function SubmitForm(props) {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                   Answer Option 1
                 </label>
-                { errorList[1] && <input onChange={(event) => {setOption1(event.target.value)}} className='border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id="grid-answer-1" type="text" placeholder="ex. apple" />}
-                { !errorList[1] && <input onChange={(event) => {setOption1(event.target.value)}} className='appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id="grid-answer-1" type="text" placeholder="ex. apple" />}
+                { errorList[1] && <input value={option1} onChange={(event) => {setOption1(event.target.value)}} className='border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id="grid-answer-1" type="text" placeholder="ex. apple" />}
+                { !errorList[1] && <input value={option1} onChange={(event) => {setOption1(event.target.value)}} className='appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id="grid-answer-1" type="text" placeholder="ex. apple" />}
                 {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
                 {errorComponents[1]}
               </div>
@@ -130,8 +144,8 @@ export default function SubmitForm(props) {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                   Answer Option 2
                 </label>
-                { errorList[2] && <input onChange={(event) => {setOption2(event.target.value)}} className=" border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-answer-2" type="text" placeholder="ex. banana" />}
-                { !errorList[2] && <input onChange={(event) => {setOption2(event.target.value)}} className=" appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-answer-2" type="text" placeholder="ex. banana" />}
+                { errorList[2] && <input value={option2} onChange={(event) => {setOption2(event.target.value)}} className=" border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-answer-2" type="text" placeholder="ex. banana" />}
+                { !errorList[2] && <input value={option2} onChange={(event) => {setOption2(event.target.value)}} className=" appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-answer-2" type="text" placeholder="ex. banana" />}
                 {errorComponents[2]}
               </div>
             </div>
@@ -140,8 +154,8 @@ export default function SubmitForm(props) {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
                   Username
                 </label>
-                { errorList[3] && <input onChange={(event) => {setUser(event.target.value)}} className="border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-username" type="text" placeholder="ex. sam1234" />}
-                { !errorList[3] && <input onChange={(event) => {setUser(event.target.value)}} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-username" type="text" placeholder="ex. sam1234" />}
+                { errorList[3] && <input value={user} onChange={(event) => {setUser(event.target.value)}} className="border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-username" type="text" placeholder="ex. sam1234" />}
+                { !errorList[3] && <input value={user} onChange={(event) => {setUser(event.target.value)}} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-username" type="text" placeholder="ex. sam1234" />}
                 {errorComponents[3]}
               </div>
               <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -149,10 +163,12 @@ export default function SubmitForm(props) {
                   Category
                 </label>
                 <div className="relative">
-                  { errorList[4] && <select onChange={(event) => {setCategory(event.target.value)}} className=" border-red-500 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                  { errorList[4] && <select value={category} onChange={(event) => {setCategory(event.target.value)}} className=" border-red-500 block appearance-none w-full bg-gray-200 border  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                    <Category/>
                     {categorysComponents}
                   </select>}
-                  { !errorList[4] && <select onChange={(event) => {setCategory(event.target.value)}} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                  { !errorList[4] && <select value={category} onChange={(event) => {setCategory(event.target.value)}} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                    <Category/>
                     {categorysComponents}
                   </select>}
                   {errorComponents[4]}
@@ -173,8 +189,8 @@ export default function SubmitForm(props) {
             <button onClick={submit} type="submit" className="flex-shrink-0 bg-indigo-500 hover:bg-indigo-700 border-indigo-500 hover:border-indigo-700 text-sm border-4 text-white py-1 px-2 mt-6 rounded" type="button">
               Submit
             </button>
-            <button className="flex-shrink-0 border-transparent border-4 text-indigo-500 hover:text-indigo-800 text-sm py-1 px-2 rounded" type="button">
-              Cancel
+            <button onClick={reset} className="flex-shrink-0 border-transparent border-4 text-indigo-500 hover:text-indigo-800 text-sm py-1 px-2 rounded" type="button">
+              Reset
             </button>
 
           </form>
