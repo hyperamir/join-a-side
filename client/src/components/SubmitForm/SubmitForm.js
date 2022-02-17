@@ -90,11 +90,11 @@ export default function SubmitForm(props) {
 
     //console.log(user);
     // user field
-    if (user.length <= 0 ) {
-      errors[3] = "Please fill out this field.";
-    }
-    else if (user.length > 80) {
-      errors[3] = "Char limit 80.";
+
+    const userId = parseInt(user)
+    console.log(userId)
+    if (isNaN(userId)) {
+      errors[3] = "Must be a number";
     }
 
     //console.log(category);
