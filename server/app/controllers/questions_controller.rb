@@ -14,12 +14,6 @@ class QuestionsController < ApplicationController
         vote_a: question.vote.vote_a,
         vote_b: question.vote.vote_b
       }
-
-
-      # q = question.clone 
-      # vote = question.vote
-      # q.merge(vote_a: vote.vote_a)
-      # q.merge(vote_b: vote.vote_b)
       questionsWithVotes = questionsWithVotes + [q]
     end
     
@@ -28,11 +22,7 @@ class QuestionsController < ApplicationController
 
   def show
     question = Question.find params[:id]
-    votes = question.vote
-    render json: [
-      question,
-      votes
-    ]
+    render json: question
   end
 
 end
