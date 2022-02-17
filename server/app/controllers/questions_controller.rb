@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
     category = Category.find params[:category_id]
     questionsWithVotes = []
     category.questions.each do |question|
+      vote = question.vote
       q = {
         id: question.id,
         title: question.title,
@@ -11,8 +12,8 @@ class QuestionsController < ApplicationController
         answer_b: question.answer_b,
         category_id: question.category_id,
         user_id: question.user_id,
-        vote_a: question.vote.vote_a,
-        vote_b: question.vote.vote_b
+        vote_a: vote.vote_a,
+        vote_b: vote.vote_b
       }
       questionsWithVotes = questionsWithVotes + [q]
     end
@@ -40,6 +41,7 @@ class QuestionsController < ApplicationController
   def create
       question = Question.new(question_params)
       if question.save
+        Vote.create(vote_a: 0, vote_b: 0, question_id: question.id )
         render json: @question
       else
         render json: @question.errors
