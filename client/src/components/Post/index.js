@@ -1,30 +1,10 @@
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
-// import "./index.scss";
-
-// import Question from './Question';
-// import QuestionList from '../QuestionList';
-// import Vote from './Vote';
-// import Comment from './Comment';
-
-// export default function Post(props) {
-//   return (
-//     <div>
-//       <Question></Question>
-//       <Vote></Vote>
-//       <Comment></Comment>
-//     </div>
-//   );
-// }
-
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
 import { getCurrentPath, arrayFindObjectByProp, getVotePercent } from '../helpers/helper';
-import QuestionList from './QuestionList';
+
 
 export default function Post(props) {
   const [question, setQuestion] = useState([]);
@@ -32,19 +12,12 @@ export default function Post(props) {
   useEffect(() => {
     axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
       .then((response) => {
-        //console.log('response from backend: questions', response.data)
         setQuestion(response.data);
       })
       .catch(() => {
         console.log('Cannot find your category');
       });
   }, [params.id]);
-
-  // console.log(getCurrentPath());
-  // console.log(arrayFindObjectByProp(question, "id", getCurrentPath()))
-
-  // const currentQuestion = arrayFindObjectByProp(question, `${question.id}`, getCurrentPath());
-  // console.log('currentquestion: ', currentQuestion)
 
   return (
     <div>

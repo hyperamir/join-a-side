@@ -22,8 +22,20 @@ class QuestionsController < ApplicationController
 
   def show
     question = Question.find params[:id]
-    render json: question
-  end
+    votes = question.vote
+    
+    q = {
+      id: question.id,
+      title: question.title,
+      answer_a: question.answer_a,
+      answer_b: question.answer_b,
+      category_id: question.category_id,
+      user_id: question.user_id,
+      vote_a: votes.vote_a,
+      vote_b: votes.vote_b
+    }
+
+    render json: q  end
 
   def create
       question = Question.new(question_params)
