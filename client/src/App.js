@@ -54,7 +54,7 @@ function App() {
           <Route path="/categories/:id" element={<QuestionList />}/>
 
           {/* Send users to this route if such url doesn't exist */}
-          <Route path="*" element={<Navigate to="/"/>}/>
+          <Route path="/*" element={<Navigate to="/categories/:id"/>}/>
         </Routes>
       </div>
     </Router>
