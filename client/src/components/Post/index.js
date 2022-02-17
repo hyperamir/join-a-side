@@ -30,9 +30,9 @@ export default function Post(props) {
   const [question, setQuestion] = useState([]);
   const params = useParams();
   useEffect(() => {
-    axios.get(`http://localhost:3000/categories/${params.id}/questions`)
+    axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
       .then((response) => {
-        console.log('response from backend: questions', response.data)
+        //console.log('response from backend: questions', response.data)
         setQuestion(response.data);
       })
       .catch(() => {
@@ -40,11 +40,11 @@ export default function Post(props) {
       });
   }, [params.id]);
 
-  console.log(getCurrentPath());
-  console.log(arrayFindObjectByProp(question, "id", getCurrentPath()))
+  // console.log(getCurrentPath());
+  // console.log(arrayFindObjectByProp(question, "id", getCurrentPath()))
 
-  const currentQuestion = arrayFindObjectByProp(question, "id", getCurrentPath());
-  console.log(currentQuestion)
+  // const currentQuestion = arrayFindObjectByProp(question, `${question.id}`, getCurrentPath());
+  // console.log('currentquestion: ', currentQuestion)
 
   return (
     <div>
@@ -54,17 +54,17 @@ export default function Post(props) {
           <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#"></a>
         </div>
         <div className="mt-4">
-          <a className="text-lg text-gray-700 font-medium" href="#"> Title </a>
+          <a className="text-lg text-gray-700 font-medium" href="#"> {question.title} </a>
         </div>
         {/* Buttons */}
-        {/* <div className="flex flex-row justify-between p-8">
+        <div className="flex flex-row justify-between p-8">
           <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {question.answer_a}
           </button>
           <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {question.answer_b}
           </button>
-        </div> */}
+        </div>
         {/* User && Date */}
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center">
@@ -80,13 +80,13 @@ export default function Post(props) {
 
           {/* Status Bar */}
           <div className="container">
-            {/* <div className="votes bar" style={{width: getVotePercent(question.vote_a, question.vote_b) }}></div> */}
+            <div className="votes bar" style={{width: getVotePercent(question.vote_a, question.vote_b) }}></div>
           </div>
 
           {/* Votes */}
           <div className="flex flex-row justify-between">
-            {/* <p>{question.vote_a}</p>
-            <p>{question.vote_b}</p> */}
+            <p>{question.vote_a}</p>
+            <p>{question.vote_b}</p>
           </div>
         </div>
       </div>
