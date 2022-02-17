@@ -15,7 +15,7 @@ export default function QuestionList(props) {
   useEffect(() => {
     axios.get(`http://localhost:3000/categories/${params.id}/questions`)
       .then((response) => {
-        console.log('response from backend:', response.data)
+        //console.log('response from backend:', response.data)
         setCategory(response.data);
       })
       .catch(() => {
@@ -27,7 +27,7 @@ export default function QuestionList(props) {
     <div>
       {
         category.map(question => {
-          console.log(question);
+         // console.log(question);
           return (
             <Link key={question.id} to={`/categories/${question.category_id}/${question.id}`}>
               {/* Question */}

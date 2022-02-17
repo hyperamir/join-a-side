@@ -25,7 +25,7 @@ function App() {
   //const [user, setUser] = useState({});
   const [user, setUser] = useState(null);
   const auth = getAuth();
-  console.log(auth);
+  //console.log(auth);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -38,7 +38,7 @@ function App() {
     });
   }, [])
 
-  console.log(user);
+  //console.log(user);
 
   return (
     <Router>
@@ -53,7 +53,7 @@ function App() {
           <Route path="/signup" element={<Register/>}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/categories/:id" element={<QuestionList />}/>
-          <Route path="/categories/:id/:id" element={<Post />}/>
+          <Route path="/categories/:id/:question_id" element={<Post />}/>
 
           {/* Send users to this route if such url doesn't exist */}
           {/* <Route path="/*" element={<Navigate to="/categories/:id"/>}/> */}
