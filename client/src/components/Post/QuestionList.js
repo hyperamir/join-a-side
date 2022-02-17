@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { getVotePercent } from './helpers/votePercent';
+import { getVotePercent } from '../helpers/helper';
 import axios from 'axios';
+import Post from '.';
 
-import "./Post/Vote.scss";
-import "./Post/Question.scss";
+import "./Vote.scss";
+import "./Question.scss";
 
 export default function QuestionList(props) {
   const [category, setCategory] = useState([]);
@@ -20,14 +21,13 @@ export default function QuestionList(props) {
       .catch(() => {
         console.log('Cannot find your category');
       });
-  }, [params.id]);
-
-  
+  }, [params.id]); 
 
   return (
     <div>
       {
         category.map(question => {
+          console.log(question);
           return (
             <Link key={question.id} to={`/categories/${question.category_id}/${question.id}`}>
               {/* Question */}
@@ -76,6 +76,11 @@ export default function QuestionList(props) {
           )
         })
       }
+      {/* <Post
+      key= {props.id}
+      title = {props.title}
+      answer_a = {props.answer_a}
+      ></Post> */}
     </div>
   );
 };

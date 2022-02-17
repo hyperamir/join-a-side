@@ -15,7 +15,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import "./service/firebase"
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import QuestionList from './components/QuestionList';
+import QuestionList from './components/Post/QuestionList';
 import Question from './components/Post/index'
 
 function App() {
