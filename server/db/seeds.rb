@@ -48,16 +48,28 @@ User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_nam
 
 
 Question.create(category_id: 1, user_id: 1, title: 'Do you guys like Call of Duty or Halo?', answer_a: 'Call of Duty', answer_b: 'Halo')
+Question.create(category_id: 1, user_id: 6, title: 'Should I go for XBOX or PS5?', answer_a: 'Xbox', answer_b: 'PS5')
+Question.create(category_id: 2, user_id: 5, title: 'Best soccer player?', answer_a: 'Ronaldo', answer_b: 'Messi')
 Question.create(category_id: 2, user_id: 1, title: 'Which one you are into?', answer_a: 'Soccer', answer_b: 'Baseball')
+Question.create(category_id: 2, user_id: 3, title: 'Which sport shoul I learn?', answer_a: 'Mountain biking', answer_b: 'Ice-skating')
 Question.create(category_id: 3, user_id: 2, title: 'Are you a fan of movies or series?', answer_a: 'Movies', answer_b: 'Series')
 Question.create(category_id: 3, user_id: 3, title: 'Should I watch Games Of Thrones or Beaking Bad?', answer_a: 'Games Of Thrones', answer_b: 'Breaking Bad')
 Question.create(category_id: 4, user_id: 4, title: 'Should all people have the right to own guns?', answer_a: 'Yes', answer_b: 'No')
+Question.create(category_id: 4, user_id: 2, title: 'Death penalty should be abolished?', answer_a: 'Absolutely!', answer_b: 'Never!')
+Question.create(category_id: 5, user_id: 3, title: 'Which one is easier to make?', answer_a: 'Pasta', answer_b: 'Burger')
+Question.create(category_id: 5, user_id: 6, title: 'Best veggie burger?', answer_a: 'McDonalds', answer_b: 'Burgur king')
 
 Vote.create(question_id: 1,vote_a: 30, vote_b: 25)
 Vote.create(question_id: 2,vote_a: 130, vote_b: 125)
 Vote.create(question_id: 3,vote_a: 324, vote_b: 218)
 Vote.create(question_id: 4,vote_a: 450, vote_b: 126)
 Vote.create(question_id: 5,vote_a: 211, vote_b: 225)
+Vote.create(question_id: 6,vote_a: 67, vote_b: 87)
+Vote.create(question_id: 7,vote_a: 219, vote_b: 34)
+Vote.create(question_id: 8,vote_a: 19, vote_b: 218)
+Vote.create(question_id: 9,vote_a: 1123, vote_b: 640)
+Vote.create(question_id: 10,vote_a: 450, vote_b: 112)
+Vote.create(question_id: 11,vote_a: 275, vote_b: 225)
 
 Comment.create(question_id: 1, user_id:6, comment: 'I like COD, the game speed is much better!')
 Comment.create(question_id: 1, user_id:5, comment: 'Only Haloooo!')
