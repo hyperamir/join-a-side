@@ -9,12 +9,33 @@ export default function SubmitForm(props) {
   const [option1, setOption1] = useState("");
   const [option2, setOption2] = useState("");
   const [user, setUser] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState({name: "", id: 0});
 
   
+
   useEffect(() => {
     getAllCategorys();
+    console.log(categoriesList)
   }, []); 
+
+  const handleID = (event) => {
+    //get name from selected option from category 
+    const name = event.target.options[event.target.selectedIndex].text;
+    let id = -1
+    categoriesList.forEach((category) => {
+      // if category name is same as category elelment from categoriesList use that id
+      if (name === category.category) {
+        id = category.id
+      }
+    }) 
+    
+    setCategory(prevState => ({
+      ...prevState,
+      name: name,
+      id: id
+       }));
+   console.log(category)
+  }
 
   const getAllCategorys = () => {
     // localhost should not be hardcoded in should be a proxy api
@@ -32,7 +53,7 @@ export default function SubmitForm(props) {
     setOption1("");
     setOption2("");
     setUser("");
-    setCategory("");
+    setCategory({name: "", id: 0});
     SetErrorList(["","","","",""]);
     
 
@@ -40,7 +61,7 @@ export default function SubmitForm(props) {
 
   const submit = () => {
     const errors = ["","","","",""];
-    console.log(question);
+    //console.log(question);
     // question field 
     if (question.length <= 0 ) {
       errors[0] = "Please fill out this field.";
@@ -50,7 +71,7 @@ export default function SubmitForm(props) {
     }
 
     // option 1 field
-    console.log(option1);
+    //console.log(option1);
     if (option1.length <= 0 ) {
       errors[1] = "Please fill out this field.";
     }
@@ -58,7 +79,7 @@ export default function SubmitForm(props) {
       errors[1] = "Char limit 80.";
     }
 
-    console.log(option2);
+    //console.log(option2);
     // option 2 field
     if (option2.length <= 0 ) {
       errors[2] = "Please fill out this field.";
@@ -67,7 +88,7 @@ export default function SubmitForm(props) {
       errors[2] = "Char limit 80.";
     }
 
-    console.log(user);
+    //console.log(user);
     // user field
     if (user.length <= 0 ) {
       errors[3] = "Please fill out this field.";
@@ -76,11 +97,14 @@ export default function SubmitForm(props) {
       errors[3] = "Char limit 80.";
     }
 
-    console.log(category);
+    //console.log(category);
     // category field
-    if (category.length <= 0 ) {
+    console.log(category.id)
+    if (category.id <= 0) {
       errors[4] = "Please Select a option field.";
     }
+
+    SetErrorList(errors);
 
     let errorFound = false;
     errors.forEach((error) => {
@@ -88,7 +112,22 @@ export default function SubmitForm(props) {
         errorFound = true;
       }
     })  
-    SetErrorList(errors);
+    if (!errorFound) {
+      const questionObject = {
+        title: question,
+        answer_a: option1,
+        answer_b: option2,
+        category_id: category.id,
+        user_id:  parseInt(user)
+      }
+      console.log("post this",questionObject);
+      axios.post("http://localhost:3000/questions/create", questionObject)
+      .catch(error => {
+        console.log(error);
+      });
+      
+    }
+    
   }
 
   // For category drop down
@@ -96,6 +135,7 @@ export default function SubmitForm(props) {
     return(
       <Category 
         key={value.id}
+        id={value.id}
         category={value.category}
       />
     );
@@ -163,12 +203,12 @@ export default function SubmitForm(props) {
                   Category
                 </label>
                 <div className="relative">
-                  { errorList[4] && <select value={category} onChange={(event) => {setCategory(event.target.value)}} className=" border-red-500 block appearance-none w-full bg-gray-200 border  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
-                    <Category/>
+                  { errorList[4] && <select value={category.name} onChange={(event) => {handleID(event)}} className=" border-red-500 block appearance-none w-full bg-gray-200 border  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                    <Category value={""} id={0}/>
                     {categorysComponents}
-                  </select>}
-                  { !errorList[4] && <select value={category} onChange={(event) => {setCategory(event.target.value)}} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
-                    <Category/>
+                  </select>} 
+                  { !errorList[4] && <select value={category.name} onChange={(event) => {handleID(event)}} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                    <Category value={""} id={0}/>
                     {categorysComponents}
                   </select>}
                   {errorComponents[4]}
