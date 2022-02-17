@@ -16,6 +16,7 @@ import "./service/firebase"
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import QuestionList from './components/QuestionList';
+import Question from './components/Post/index'
 
 function App() {
   
@@ -52,9 +53,10 @@ function App() {
           <Route path="/signup" element={<Register/>}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/categories/:id" element={<QuestionList />}/>
+          <Route path="/categories/:id/:id" element={<Post />}/>
 
           {/* Send users to this route if such url doesn't exist */}
-          <Route path="/*" element={<Navigate to="/categories/:id"/>}/>
+          {/* <Route path="/*" element={<Navigate to="/categories/:id"/>}/> */}
         </Routes>
       </div>
     </Router>
