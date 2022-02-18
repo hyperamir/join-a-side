@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
-import { getCurrentPath, getVotePercent } from '../helpers/helper';
+import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
 
 
 export default function Post(props) {
@@ -11,6 +11,9 @@ export default function Post(props) {
   const [comment, setComment] = useState([]);
   const [countVoteA, setCountVoteA] = useState(0)
   const [countVoteB, setCountVoteB] = useState(0)
+  const [listQuestions, setListQuestions] = useState([]);
+  const [listComments, setListComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const params = useParams();
 
   const fetchData = () => {
@@ -28,8 +31,11 @@ export default function Post(props) {
 
           setCountVoteA(getAllQuestions.vote_a)
           setCountVoteB(getAllQuestions.vote_b)
-          setQuestion(getAllQuestions)
-          setComment(getQuestionsComments)
+          setListQuestions(getAllQuestions)
+          setListComments(getQuestionsComments)
+          // console.log(getAllComments)
+          // console.log(getAllComments.filter(x => x.question_id === currentPath))
+          // console.log(getAllComments[currentPath].question_id)
         })
       )
   }
@@ -76,23 +82,35 @@ export default function Post(props) {
       })
   }
 
+  const postComment = () => {
+    const tempUser = getCurrentPath();
+    const question_id = getCurrentPath();
+    const commentObject = {
+      comment: newComment,
+      question_id: tempUser,
+      user_id: question_id
+    }
+    console.log()
+    axios.post("http://localhost:3000/comments", commentObject)
+  }
+
   return (
     <div>
       {/* Question */}
       <div className="flex flex-col bg-white px-8 py-6 max-w-lg mx-auto rounded-lg shadow-xl border">
         <div className="flex justify-center items-center">
-          <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {question.id}</a>
+          <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
         </div>
         <div className="mt-4">
-          <a className="text-lg text-gray-700 font-medium" href="#"> {question.title} </a>
+          <a className="text-lg text-gray-700 font-medium" href="#"> {listQuestions.title} </a>
         </div>
         {/* Buttons */}
         <div className="flex flex-row justify-between p-8">
           <button onClick={() => handleVoteA()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
-            {question.answer_a}
+            {listQuestions.answer_a}
           </button>
           <button onClick={() => handleVoteB()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
-            {question.answer_b}
+            {listQuestions.answer_b}
           </button>
         </div>
         {/* User && Date */}
@@ -112,7 +130,7 @@ export default function Post(props) {
           <div className="container">
             <div className="votes bar" style={{ width: getVotePercent(countVoteA, countVoteB) }}></div>
           </div>
-
+          {/* listQuestions.vote_a, listQuestions.vote_b */}
           {/* Votes */}
           <div className="flex flex-row justify-between">
             <p>{countVoteA}</p>
@@ -121,21 +139,44 @@ export default function Post(props) {
         </div>
       </div>
 
+      {/* Submit Comments */}
+      <div class="flex justify-center items-center">
+        <div class="w-1/2 bg-white p-2 pt-4 rounded shadow-lg">
+
+          <div class="flex ml-3">
+            <div class="mr-3">
+              <img src="http://picsum.photos/50" alt="" class="rounded-full" />
+            </div>
+            <div>
+              <h1 class="font-semibold">Andy Park</h1>
+              <p class="text-xs text-gray-500">2 seconds ago</p>
+            </div>
+          </div>
+
+          <div class="mt-3 p-3 w-full">
+            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" class="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
+          </div>
+
+          <div class="flex justify-end p-4 mx-3">
+            <div>
+              <button onClick={postComment} class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
       {/* Comment section */}
       <div className="flex items-center justify-center p-2">
         <div className="bg-white shadow-xl border p-8 w-3xl">
-          <div className="mb-4">
-            <h1 className="font-semibold text-gray-800">Comments</h1>
-          </div>
 
           {/* Populate comments */}
           {
-            comment.map(comments => {
+            listComments.map(comments => {
               return (
                 <div>
                   <div className="flex justify-center items-center mb-8">
                     <div className="w-1/5">
-                      <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/men/20.jpg" alt="user image" />
+                      <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://picsum.photos/20/30" alt="user image" />
                     </div>
                     <div className="w-4/5">
                       <div>

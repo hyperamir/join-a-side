@@ -14,3 +14,8 @@ export function arrayFindObjectByProp (arr, prop, val) {
 export function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
 }
+
+export function getRandomPhotoURL() {
+  let random = Math.floor((Math.random() * 100) + 1);
+  return `https://picsum.photos/200/300?random=${random}`
+}
