@@ -69,7 +69,7 @@ export default function Post(props) {
 
     axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
       .then((response) => {
-        console.log('response Vote A:', response)
+        console.log('response Vote B:', response)
       })
       .catch(error => {
         console.log(('put error: '), error);
