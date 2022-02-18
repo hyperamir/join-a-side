@@ -41,7 +41,7 @@ export default function Post(props) {
   }, [params.id]);
 
   const postComment = () => {
-    const tempUser = 1;
+    const tempUser = getCurrentPath();
     const question_id = getCurrentPath();
     const commentObject = {
       comment: newComment,
