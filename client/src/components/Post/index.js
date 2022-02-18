@@ -9,35 +9,72 @@ import { getCurrentPath, getVotePercent } from '../helpers/helper';
 export default function Post(props) {
   const [question, setQuestion] = useState([]);
   const [comment, setComment] = useState([]);
+  const [countVoteA, setCountVoteA] = useState(0)
+  const [countVoteB, setCountVoteB] = useState(0)
   const params = useParams();
 
   const fetchData = () => {
     const getQuestion = axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
     const getComment = axios.get(`http://localhost:3000/comments/index`)
-    
+
     let currentPath = getCurrentPath();
 
-    console.log(getCurrentPath())
     axios.all([getQuestion, getComment])
-    .then(
-      axios.spread((...allData) => {
-        const getAllQuestions = allData[0].data
-        const getAllComments = allData[1].data
-        const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
-        
+      .then(
+        axios.spread((...allData) => {
+          const getAllQuestions = allData[0].data
+          const getAllComments = allData[1].data
+          const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
 
-        setQuestion(getAllQuestions)
-        setComment(getQuestionsComments)
-        // console.log(getAllComments)
-        // console.log(getAllComments.filter(x => x.question_id === currentPath))
-        // console.log(getAllComments[currentPath].question_id)
-      })
-    )
+          setCountVoteA(getAllQuestions.vote_a)
+          setCountVoteB(getAllQuestions.vote_b)
+          setQuestion(getAllQuestions)
+          setComment(getQuestionsComments)
+        })
+      )
   }
 
   useEffect(() => {
     fetchData();
   }, [params.id]);
+
+
+  const handleVoteA = () => {
+    setCountVoteA(countVoteA + 1)
+
+    let VoteABobj = {
+      vote_a: countVoteA + 1,
+      vote_b: countVoteB,
+      question_id: Number(params.question_id)
+    };
+
+    console.log('voteAB:', VoteABobj)
+    axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
+      .then((response) => {
+        console.log('response Vote A:', response)
+      })
+      .catch(error => {
+        console.log(('put error: '), error);
+      })
+  }
+
+  const handleVoteB = () => {
+    setCountVoteB(countVoteB + 1)
+
+    let VoteABobj = {
+      vote_a: countVoteA,
+      vote_b: countVoteB + 1,
+      question_id: Number(params.question_id)
+    };
+
+    axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
+      .then((response) => {
+        console.log('response Vote A:', response)
+      })
+      .catch(error => {
+        console.log(('put error: '), error);
+      })
+  }
 
   return (
     <div>
@@ -51,10 +88,10 @@ export default function Post(props) {
         </div>
         {/* Buttons */}
         <div className="flex flex-row justify-between p-8">
-          <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button onClick={() => handleVoteA()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {question.answer_a}
           </button>
-          <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button onClick={() => handleVoteB()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {question.answer_b}
           </button>
         </div>
@@ -73,13 +110,13 @@ export default function Post(props) {
 
           {/* Status Bar */}
           <div className="container">
-            <div className="votes bar" style={{width: getVotePercent(question.vote_a, question.vote_b) }}></div>
+            <div className="votes bar" style={{ width: getVotePercent(countVoteA, countVoteB) }}></div>
           </div>
 
           {/* Votes */}
           <div className="flex flex-row justify-between">
-            <p>{question.vote_a}</p>
-            <p>{question.vote_b}</p>
+            <p>{countVoteA}</p>
+            <p>{countVoteB}</p>
           </div>
         </div>
       </div>
@@ -88,37 +125,37 @@ export default function Post(props) {
       <div className="flex items-center justify-center p-2">
         <div className="bg-white shadow-xl border p-8 w-3xl">
           <div className="mb-4">
-              <h1 className="font-semibold text-gray-800">Comments</h1>
+            <h1 className="font-semibold text-gray-800">Comments</h1>
           </div>
 
-      {/* Populate comments */}
-      {
-        comment.map(comments => {
-          return (
-            <div>
-              <div className="flex justify-center items-center mb-8">
-                <div className="w-1/5">
-                  <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/men/20.jpg" alt="user image" />
+          {/* Populate comments */}
+          {
+            comment.map(comments => {
+              return (
+                <div>
+                  <div className="flex justify-center items-center mb-8">
+                    <div className="w-1/5">
+                      <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/men/20.jpg" alt="user image" />
+                    </div>
+                    <div className="w-4/5">
+                      <div>
+                        <span className="font-semibold text-gray-800">Username{comments.id}</span>
+                      </div>
+                      <div className="">
+                        <a href="" className="text-black-600 mr-2">{comments.comment}</a>
+                      </div>
+                      <div>
+                        <a href="" className="text-gray-400">Created at</a>
+                        <p>{comments.created_at}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="w-4/5">
-                  <div>
-                    <span className="font-semibold text-gray-800">Username{comments.id}</span>
-                  </div>
-                  <div className="">
-                    <a href="" className="text-black-600 mr-2">{comments.comment}</a>
-                  </div>
-                  <div>
-                    <a href="" className="text-gray-400">Created at</a>
-                    <p>{comments.created_at}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-                )
-              })
-            }
-          </div>
+              )
+            })
+          }
         </div>
+      </div>
     </div>
   );
 };

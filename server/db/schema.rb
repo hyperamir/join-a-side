@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2022_02_15_235142) do
   create_table "votes", force: :cascade do |t|
     t.integer "vote_a"
     t.integer "vote_b"
-    t.bigint "question_id"
+    t.integer "question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_votes_on_question_id"
