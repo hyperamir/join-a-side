@@ -24,7 +24,7 @@ export default function Post(props) {
       {/* Question */}
       <div className="flex flex-col bg-white px-8 py-6 max-w-lg mx-auto rounded-lg shadow-xl border">
         <div className="flex justify-center items-center">
-          <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#"></a>
+          <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#"> Question {question.id} </a>
         </div>
         <div className="mt-4">
           <a className="text-lg text-gray-700 font-medium" href="#"> {question.title} </a>
