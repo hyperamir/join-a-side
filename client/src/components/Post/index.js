@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
-import { getCurrentPath, getVotePercent } from '../helpers/helper';
+import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
 
 
 export default function Post(props) {
@@ -97,39 +97,36 @@ export default function Post(props) {
         </div>
       </div>
 
+      {/* Submit Comments */}
+      <div class="flex justify-center items-center">
+        <div class="w-1/2 bg-white p-2 pt-4 rounded shadow-lg">
+
+          <div class="flex ml-3">
+            <div class="mr-3">
+              <img src="http://picsum.photos/50" alt="" class="rounded-full"/>
+            </div>
+            <div>
+              <h1 class="font-semibold">Andy Park</h1>
+              <p class="text-xs text-gray-500">2 seconds ago</p>
+            </div>
+          </div>
+
+          <div class="mt-3 p-3 w-full">
+            <textarea onChange={(event) => {setNewComment(event.target.value)}}  rows="3" class="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
+          </div>
+
+          <div class="flex justify-end p-4 mx-3">
+            <div>
+              <button onClick={postComment} class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
       {/* Comment section */}
       <div className="flex items-center justify-center p-2">
         <div className="bg-white shadow-xl border p-8 w-3xl">
-          <div className="mb-4">
-              <h1 className="font-semibold text-gray-800">Comments</h1>
-          </div>
-          <div class="flex justify-center items-center">
 
-<div class="w-1/2 bg-white p-2 pt-4 rounded shadow-lg">
-  <div class="flex ml-3">
-    <div class="mr-3">
-      <img src="http://picsum.photos/50" alt="" class="rounded-full"/>
-    </div>
-    <div>
-      <h1 class="font-semibold">Itay Buyoy</h1>
-      <p class="text-xs text-gray-500">2 seconds ago</p>
-    </div>
-
-  </div>
-
-  <div class="mt-3 p-3 w-full">
-    <textarea onChange={(event) => {setNewComment(event.target.value)}}  rows="3" class="border p-2 rounded w-full" placeholder="Write something..."></textarea>
-  </div>
-
-  <div class="flex justify-between mx-3">
-    <div><button onClick={postComment} class="px-4 py-1 bg-gray-800 text-white rounded font-light hover:bg-gray-700">Submit</button></div>
-    <div>
-    </div>
-  </div>
-
-</div>
-
-</div>
       {/* Populate comments */}
       {
         listComments.map(comments => {
@@ -137,7 +134,7 @@ export default function Post(props) {
             <div>
               <div className="flex justify-center items-center mb-8">
                 <div className="w-1/5">
-                  <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/men/20.jpg" alt="user image" />
+                  <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://picsum.photos/20/30" alt="user image" />
                 </div>
                 <div className="w-4/5">
                   <div>
