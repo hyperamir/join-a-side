@@ -15,12 +15,13 @@ Rails.application.routes.draw do
   
   get '/signup', to: 'users#new'
   post '/users', to: 'users#create'
+  # post '/votes', to: 'votes#update'
   
   resources :categories do
     resources :questions
   end
 
   resources :comments, only: [:create, :show]
-
-  get '*path', to: 'categories#index', via: :all
+  resources :votes
+  # get '*path', to: 'categories#index', via: :all
 end
