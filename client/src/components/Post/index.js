@@ -9,9 +9,12 @@ import { getCurrentPath, arrayFindObjectByProp, getVotePercent } from '../helper
 export default function Post(props) {
   const [question, setQuestion] = useState([]);
   const params = useParams();
+  const getQuestions = `http://localhost:3000/categories/${params.id}/questions/${params.question_id}`
+  const getComments =`http://localhost:3000/comments/index`
   useEffect(() => {
     axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
       .then((response) => {
+        console.log(response.data);
         setQuestion(response.data);
       })
       .catch(() => {

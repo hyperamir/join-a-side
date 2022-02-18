@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   get 'users/create'
   get 'comments/index'
   get 'questions/index'
-  post 'questions/create'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: 'categories#index'
@@ -19,5 +18,7 @@ Rails.application.routes.draw do
   resources :categories do
     resources :questions
   end
+  resources :comments, only: [:create, :show]
 
+  get '*path', to: 'categories#index', via: :all
 end
