@@ -140,26 +140,26 @@ export default function Post(props) {
       </div>
 
       {/* Submit Comments */}
-      <div class="flex justify-center items-center">
-        <div class="w-1/2 bg-white p-2 pt-4 rounded shadow-lg">
+      <div className="flex justify-center items-center">
+        <div className="w-1/2 bg-white p-2 pt-4 rounded shadow-lg">
 
-          <div class="flex ml-3">
-            <div class="mr-3">
-              <img src="http://picsum.photos/50" alt="" class="rounded-full" />
+          <div className="flex ml-3">
+            <div className="mr-3">
+              <img src="http://picsum.photos/50" alt="" className="rounded-full" />
             </div>
             <div>
-              <h1 class="font-semibold">Andy Park</h1>
-              <p class="text-xs text-gray-500">2 seconds ago</p>
+              <h1 className="font-semibold">Andy Park</h1>
+              <p className="text-xs text-gray-500">2 seconds ago</p>
             </div>
           </div>
 
-          <div class="mt-3 p-3 w-full">
-            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" class="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
+          <div className="mt-3 p-3 w-full">
+            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
           </div>
 
-          <div class="flex justify-end p-4 mx-3">
+          <div className="flex justify-end p-4 mx-3">
             <div>
-              <button onClick={postComment} class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
+              <button onClick={postComment} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
             </div>
           </div>
         </div>
