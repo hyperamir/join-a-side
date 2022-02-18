@@ -10,3 +10,7 @@ export function getCurrentPath() {
 export function arrayFindObjectByProp (arr, prop, val) {
   return arr.find((obj) => obj[prop] == val);
 }
+
+export function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}

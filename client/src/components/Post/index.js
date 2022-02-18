@@ -3,28 +3,34 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
-import { getCurrentPath, arrayFindObjectByProp, getVotePercent } from '../helpers/helper';
+import { getCurrentPath, arrayFindObjectByProp, getVotePercent, getKeyByValue } from '../helpers/helper';
 
 
 export default function Post(props) {
   const [question, setQuestion] = useState([]);
   const [comment, setComment] = useState([]);
   const params = useParams();
-  const currentPath = getCurrentPath();
 
   const fetchData = () => {
     const getQuestion = axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
     const getComment = axios.get(`http://localhost:3000/comments/index`)
+    
+    let currentPath = getCurrentPath();
+
+    console.log(getCurrentPath())
     axios.all([getQuestion, getComment])
     .then(
-      axios.spread((...data) => {
-        const getAllQuestions = data[0]
-        const getAllComments = data[1]
+      axios.spread((...allData) => {
+        const getAllQuestions = allData[0].data
+        const getAllComments = allData[1].data
+        const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
+        
 
-        setQuestion(getAllQuestions.data)
-        setComment(getAllComments.data)
-        console.log(getAllQuestions.data)
-        console.log(getAllComments.data)
+        setQuestion(getAllQuestions)
+        setComment(getQuestionsComments)
+        console.log(getAllComments)
+        console.log(getAllComments.filter(x => x.question_id === currentPath))
+        console.log(getAllComments[currentPath].question_id)
       })
     )
   }
