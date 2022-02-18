@@ -39,13 +39,13 @@ export default function SubmitForm(props) {
 
   const getAllCategorys = () => {
     // localhost should not be hardcoded in should be a proxy api
-    axios.get("http://localhost:3000/categories")
+    axios.get("categories")
   .then(response => {
     setCategoriesList(response.data);
   })
   .catch(error => {
     console.log(error);
-  })
+  });
   }
 
   const reset = () => {
@@ -121,7 +121,7 @@ export default function SubmitForm(props) {
         user_id:  parseInt(user)
       }
       console.log("post this",questionObject);
-      axios.post("http://localhost:3000/questions/create", questionObject)
+      axios.post("questions/create", questionObject)
       .catch(error => {
         console.log(error);
       });
