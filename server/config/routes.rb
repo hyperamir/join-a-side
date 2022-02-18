@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :categories do
     resources :questions
   end
+
   resources :comments, only: [:create, :show]
 
   get '*path', to: 'categories#index', via: :all

@@ -8,18 +8,38 @@ import { getCurrentPath, arrayFindObjectByProp, getVotePercent } from '../helper
 
 export default function Post(props) {
   const [question, setQuestion] = useState([]);
+  const [comment, setComment] = useState([]);
   const params = useParams();
-  const getQuestions = `http://localhost:3000/categories/${params.id}/questions/${params.question_id}`
-  const getComments =`http://localhost:3000/comments/index`
-  useEffect(() => {
-    axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
-      .then((response) => {
-        console.log(response.data);
-        setQuestion(response.data);
+  const currentPath = getCurrentPath();
+
+  const fetchData = () => {
+    const getQuestion = axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
+    const getComment = axios.get(`http://localhost:3000/comments/index`)
+    axios.all([getQuestion, getComment])
+    .then(
+      axios.spread((...data) => {
+        const getAllQuestions = data[0]
+        const getAllComments = data[1]
+
+        setQuestion(getAllQuestions.data)
+        setComment(getAllComments.data)
+        console.log(getAllQuestions.data)
+        console.log(getAllComments.data)
       })
-      .catch(() => {
-        console.log('Cannot find your category');
-      });
+    )
+  }
+
+  useEffect(() => {
+    // `http://localhost:3000/comments/${params.id}`
+    // axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setQuestions(response.data);
+    //   })
+    //   .catch(() => {
+    //     console.log('Cannot find your category');
+    //   });
+    fetchData();
   }, [params.id]);
 
   return (
@@ -71,43 +91,35 @@ export default function Post(props) {
       <div className="flex items-center justify-center p-2">
         <div className="bg-white shadow-xl border p-8 w-3xl">
           <div className="mb-4">
-            <h1 className="font-semibold text-gray-800">Comment Section for both Answers 1 and Answer 2</h1>
+              <h1 className="font-semibold text-gray-800">Comments</h1>
           </div>
-          <div className="flex justify-center items-center mb-8">
-            <div className="w-1/5">
-              <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/men/20.jpg" alt="user image" />
-            </div>
-            <div className="w-4/5">
-              <div>
-                <span className="font-semibold text-gray-800">Ezio Dani</span>
-              </div>
-              <div className="">
-                <a href="" className="text-black-600 mr-2">Comments by the user</a>
-              </div>
-              <div>
-                <a href="" className="text-gray-400">Comment posted ago</a>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-center items-center">
-            <div className="w-1/5">
-              <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/women/20.jpg" alt="user image" />
-            </div>
-            <div className="w-4/5">
-              <div>
-                <span className="font-semibold text-gray-800">Bianca Chen</span>
-              </div>
-              <div className="">
-                <a href="" className="text-black-600 mr-2">Comments by the user</a>
-              </div>
-              <div>
-                <a href="" className="text-gray-400">Comment posted ago</a>
+      {
+        comment.map(comments => {
+          return (
+            <div>
+              <div className="flex justify-center items-center mb-8">
+                <div className="w-1/5">
+                  <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/men/20.jpg" alt="user image" />
+                </div>
+                <div className="w-4/5">
+                  <div>
+                    <span className="font-semibold text-gray-800">Username{comments.id}</span>
+                  </div>
+                  <div className="">
+                    <a href="" className="text-black-600 mr-2">{comments.comment}</a>
+                  </div>
+                  <div>
+                    <a href="" className="text-gray-400">Created at</a>
+                    <p>{comments.created_at}</p>
+                  </div>
+                </div>
               </div>
             </div>
+                )
+              })
+            }
           </div>
         </div>
-      </div>
-      
     </div>
   );
 };
