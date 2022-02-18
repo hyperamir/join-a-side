@@ -9,25 +9,30 @@ import { getCurrentPath, getVotePercent } from '../helpers/helper';
 export default function Post(props) {
   const [question, setQuestion] = useState([]);
   const [comment, setComment] = useState([]);
+  const [user, setUser] = useState([]);
   const params = useParams();
 
   const fetchData = () => {
     const getQuestion = axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
     const getComment = axios.get(`http://localhost:3000/comments/index`)
+    const getUser = axios.get('https://randomuser.me/api/')
     
     let currentPath = getCurrentPath();
+    // console.log(getCurrentPath());
 
-    console.log(getCurrentPath())
-    axios.all([getQuestion, getComment])
+    axios.all([getQuestion, getComment, getUser])
     .then(
       axios.spread((...allData) => {
-        const getAllQuestions = allData[0].data
-        const getAllComments = allData[1].data
-        const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
+        const getAllQuestions = allData[0].data;
+        const getAllComments = allData[1].data;
+        const getAllUser = allData[2].data.results[0];
+        const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath);
         
+        setQuestion(getAllQuestions);
+        setComment(getQuestionsComments);
+        setUser(getAllUser)
 
-        setQuestion(getAllQuestions)
-        setComment(getQuestionsComments)
+        console.log(getAllUser);
         // console.log(getAllComments)
         // console.log(getAllComments.filter(x => x.question_id === currentPath))
         // console.log(getAllComments[currentPath].question_id)
@@ -102,7 +107,8 @@ export default function Post(props) {
                 </div>
                 <div className="w-4/5">
                   <div>
-                    <span className="font-semibold text-gray-800">Username{comments.id}</span>
+                    {/* <span className="font-semibold text-gray-800">Username{comments.id}</span> */}
+                    <span className="font-semibold text-gray-800">Username</span>
                   </div>
                   <div className="">
                     <a href="" className="text-black-600 mr-2">{comments.comment}</a>
