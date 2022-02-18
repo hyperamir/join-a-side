@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
-import { getCurrentPath, arrayFindObjectByProp, getVotePercent, getKeyByValue } from '../helpers/helper';
+import { getCurrentPath, getVotePercent } from '../helpers/helper';
 
 
 export default function Post(props) {
@@ -28,23 +28,14 @@ export default function Post(props) {
 
         setQuestion(getAllQuestions)
         setComment(getQuestionsComments)
-        console.log(getAllComments)
-        console.log(getAllComments.filter(x => x.question_id === currentPath))
-        console.log(getAllComments[currentPath].question_id)
+        // console.log(getAllComments)
+        // console.log(getAllComments.filter(x => x.question_id === currentPath))
+        // console.log(getAllComments[currentPath].question_id)
       })
     )
   }
 
   useEffect(() => {
-    // `http://localhost:3000/comments/${params.id}`
-    // axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setQuestions(response.data);
-    //   })
-    //   .catch(() => {
-    //     console.log('Cannot find your category');
-    //   });
     fetchData();
   }, [params.id]);
 
@@ -93,12 +84,14 @@ export default function Post(props) {
         </div>
       </div>
 
-      {/* Comment section for Answer 1 */}
+      {/* Comment section */}
       <div className="flex items-center justify-center p-2">
         <div className="bg-white shadow-xl border p-8 w-3xl">
           <div className="mb-4">
               <h1 className="font-semibold text-gray-800">Comments</h1>
           </div>
+
+      {/* Populate comments */}
       {
         comment.map(comments => {
           return (

@@ -27,7 +27,6 @@ export default function QuestionList(props) {
     <div>
       {
         category.map(question => {
-         // console.log(question);
           return (
             <Link key={question.id} to={`/categories/${question.category_id}/${question.id}`}>
               {/* Question */}
@@ -38,16 +37,6 @@ export default function QuestionList(props) {
                 <div className="mt-4">
                   <a className="text-lg text-gray-700 font-medium" href="#">{question.title}</a>
                 </div>
-                {/* Buttons */}
-                {/* <div className="flex flex-row justify-between p-8">
-                  <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
-                    {question.answer_a}
-                  </button>
-                  <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
-                    {question.answer_b}
-                  </button>
-                </div> */}
-                {/* User && Date */}
                 <div className="flex justify-between items-center mt-4">
                   <div className="flex items-center">
                     <a className="text-gray-700 text-sm mx-3" href="#">User {question.user_id}</a>
