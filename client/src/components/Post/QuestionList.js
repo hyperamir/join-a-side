@@ -30,7 +30,7 @@ export default function QuestionList(props) {
           return (
             <Link key={question.id} to={`/categories/${question.category_id}/${question.id}`}>
               {/* Question */}
-              <div className="flex flex-col bg-white px-8 py-6 max-w-lg mx-auto rounded-lg shadow-xl border">
+              <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
                 <div className="flex justify-center items-center">
                   <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {question.id}</a>
                 </div>
@@ -50,7 +50,7 @@ export default function QuestionList(props) {
                 <div className="bg-white shadow-xl border p-8 w-3/6">
      
                   {/* Status Bar */}
-                  <div className="container">
+                  <div className="bar-container">
                     <div className="votes bar" style={{width: getVotePercent(question.vote_a, question.vote_b) }}></div>
                   </div>
 
@@ -65,11 +65,6 @@ export default function QuestionList(props) {
           )
         })
       }
-      {/* <Post
-      key= {props.id}
-      title = {props.title}
-      answer_a = {props.answer_a}
-      ></Post> */}
     </div>
   );
 };
