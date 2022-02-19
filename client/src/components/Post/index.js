@@ -25,6 +25,7 @@ export default function Post(props) {
     axios.all([getQuestion, getComment])
       .then(
         axios.spread((...allData) => {
+          console.log('...alldata:', allData)
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
