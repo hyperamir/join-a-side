@@ -25,7 +25,6 @@ export default function Post(props) {
     axios.all([getQuestion, getComment])
       .then(
         axios.spread((...allData) => {
-          console.log('...alldata:', allData)
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
@@ -34,9 +33,6 @@ export default function Post(props) {
           setCountVoteB(getAllQuestions.vote_b)
           setListQuestions(getAllQuestions)
           setListComments(getQuestionsComments)
-          // console.log(getAllComments)
-          // console.log(getAllComments.filter(x => x.question_id === currentPath))
-          // console.log(getAllComments[currentPath].question_id)
         })
       )
   }
@@ -48,11 +44,11 @@ export default function Post(props) {
   //using useRef hook to disable vote button after clicked
   let btnA = useRef();
   let btnB = useRef();
-  
+
   const handleVoteA = () => {
     setCountVoteA(countVoteA + 1)
     //check if button clicked
-    if(btnA.current){
+    if (btnA.current) {
       btnA.current.setAttribute("disabled", "disabled");
     }
     let VoteABobj = {
@@ -61,11 +57,7 @@ export default function Post(props) {
       question_id: Number(params.question_id)
     };
 
-    console.log('voteAB:', VoteABobj)
     axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
-      .then((response) => {
-        console.log('response Vote A:', response)
-      })
       .catch(error => {
         console.log(('put error: '), error);
       })
@@ -74,10 +66,10 @@ export default function Post(props) {
   const handleVoteB = () => {
     setCountVoteB(countVoteB + 1)
 
-    if(btnB.current){
+    if (btnB.current) {
       btnB.current.setAttribute("disabled", "disabled");
     }
-    
+
     let VoteABobj = {
       vote_a: countVoteA,
       vote_b: countVoteB + 1,
@@ -85,9 +77,6 @@ export default function Post(props) {
     };
 
     axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
-      .then((response) => {
-        console.log('response Vote B:', response)
-      })
       .catch(error => {
         console.log(('put error: '), error);
       })
@@ -101,8 +90,11 @@ export default function Post(props) {
       question_id: tempUser,
       user_id: question_id
     }
-    console.log()
+
     axios.post("http://localhost:3000/comments", commentObject)
+    .then((response)=> {
+      setListComments([...listComments, response.data])
+    })
   }
 
   return (
@@ -185,7 +177,7 @@ export default function Post(props) {
           {
             listComments.map(comments => {
               return (
-                <div>
+                <div key={comments.id}>
                   <div className="flex justify-center items-center mb-8">
                     <div className="w-1/5">
                       <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://picsum.photos/20/30" alt="user image" />
