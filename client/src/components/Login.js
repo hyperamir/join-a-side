@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import {getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-//import { auth } from '../service/firebase';
+import  axios from 'axios';
+import { useParams } from 'react-router-dom';
 export default function Login(props) {
 
   const [loginEmail, setLoginEmail] = useState("");
@@ -8,20 +8,16 @@ export default function Login(props) {
 
   
   const login = async () => {
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-      .then((userCredential) => {
-        // Signed in 
-        console.log("good")
-        const user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage)
-      });
+    const usersObject = {
+      email: loginEmail,
+      password: loginPassword
+    }
+   
+    console.log(usersObject);
+    axios.get("users/show",{params: usersObject})
+    .then(response => {
+      console.log(response.data);
+    });
   }
  
   return (

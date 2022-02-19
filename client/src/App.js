@@ -51,7 +51,7 @@ function App() {
           {/* <Route path="/" element={<Post />} /> */}
           <Route path="/users" element={<SubmitForm />}/>
           <Route path="/signup" element={<Register/>}/>
-          <Route path="/login" element={<Login />}/>
+          <Route path="/login" setUser={setUser} element={<Login />}/>
           <Route path="/categories/:id" element={<QuestionList />}/>
           <Route path="/categories/:id/:question_id" element={<Post />}/>
 
