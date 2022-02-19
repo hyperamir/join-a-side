@@ -97,7 +97,7 @@ export default function Post(props) {
   return (
     <div>
       {/* Question */}
-      <div className="flex flex-col bg-white px-8 py-6 max-w-lg mx-auto rounded-lg shadow-xl border">
+      <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
         <div className="flex justify-center items-center">
           <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
         </div>
@@ -118,16 +118,16 @@ export default function Post(props) {
           <div className="flex items-center">
             <a className="text-gray-700 text-sm mx-3" href="#">User</a>
           </div>
-          <span className="font-light text-sm text-gray-600">Date</span>
+          <span className="font-light text-sm text-gray-600">3 days ago</span>
         </div>
       </div>
 
       {/* Vote */}
-      <div className="flex items-center justify-center p-4">
+      <div className="form flex items-center justify-center p-4">
         <div className="bg-white shadow-xl border p-8 w-3/6">
 
           {/* Status Bar */}
-          <div className="container">
+          <div className="bar-container">
             <div className="votes bar" style={{ width: getVotePercent(countVoteA, countVoteB) }}></div>
           </div>
           {/* listQuestions.vote_a, listQuestions.vote_b */}
@@ -141,7 +141,7 @@ export default function Post(props) {
 
       {/* Submit Comments */}
       <div className="flex justify-center items-center">
-        <div className="w-1/2 bg-white p-2 pt-4 rounded shadow-lg">
+        <div className="bg-white shadow-xl border p-8 w-3/6">
 
           <div className="flex ml-3">
             <div className="mr-3">
@@ -167,7 +167,8 @@ export default function Post(props) {
       </div>
       {/* Comment section */}
       <div className="flex items-center justify-center p-2">
-        <div className="bg-white shadow-xl border p-8 w-3xl">
+        <div className="bg-white shadow-xl border p-8 w-3/6">
+          <h1 className="p-4"><b>Comments</b></h1>
 
           {/* Populate comments */}
           {
