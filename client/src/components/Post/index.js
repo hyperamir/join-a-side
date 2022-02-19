@@ -145,11 +145,11 @@ export default function Post(props) {
 
           <div className="flex ml-3">
             <div className="mr-3">
-              <img src="http://picsum.photos/50" alt="" className="rounded-full" />
+              <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
             </div>
             <div>
               <h1 className="font-semibold">Andy Park</h1>
-              <p className="text-xs text-gray-500">2 seconds ago</p>
+              <p className="text-xs text-gray-500">10 minutes ago</p>
             </div>
           </div>
 

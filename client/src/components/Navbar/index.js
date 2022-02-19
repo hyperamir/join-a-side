@@ -55,19 +55,13 @@ export default function Navbar(props) {
       </div> */}
 
       {/* Mobile hamberger menu */}
-      <div className="block lg:hidden">
+      {/* <div className="block lg:hidden">
         <button className="flex items-center px-3 py-2 border rounded text-indigo-200 border-indigo-400 hover:text-white hover:border-white">
           <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" /></svg>
         </button>
-      </div>
+      </div> */}
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div className="loat-left text-md lg:flex-grow">
-
-          {/* Links nav to route */}
-          <Link to="/users" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
-              Create Posts
-          </Link>
-
           {/* 
           <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
             Examples
@@ -78,7 +72,7 @@ export default function Navbar(props) {
         </div>
 
         {/* Login && Register */}
-        <div className="pr-4">
+        {/* <div className="pr-4">
           <Link to="/signup">
             <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Register</span>
           </Link>
@@ -87,6 +81,21 @@ export default function Navbar(props) {
           <Link to="/login">
             <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Login</span>
           </Link>
+        </div> */}
+        
+        <Link to="/users" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
+          <FontAwesomeIcon icon={solid('plus')} /> Create
+        </Link>
+
+        {/* Profile */}
+        <div className="flex ml-3">
+          <div className="mr-3">
+            <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
+          </div>
+          <div>
+            <h1 className="font-semibold text-white">Andy Park</h1>
+            <p className="text-xs text-white">Logout</p>
+          </div>
         </div>
       </div>
     </nav>
