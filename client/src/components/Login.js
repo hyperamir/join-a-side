@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import  axios from 'axios';
 import { useParams } from 'react-router-dom';
+import bcrypt from 'bcrypt';
 export default function Login(props) {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  
+  //const bcrypt = require('bcrypt');
   const login = async () => {
     const usersObject = {
       email: loginEmail,
