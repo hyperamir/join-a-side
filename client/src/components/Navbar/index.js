@@ -24,7 +24,7 @@ export default function Navbar(props) {
   // })
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-indigo-500 p-6">
+    <nav className="flex items-center justify-between flex-wrap bg-neutral-800 p-6">
 
       {/* Logo */}
       <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -74,12 +74,12 @@ export default function Navbar(props) {
         {/* Login && Register */}
         {/* <div className="pr-4">
           <Link to="/signup">
-            <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Register</span>
+            <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-neutral-800 hover:bg-white mt-4 lg:mt-0">Register</span>
           </Link>
         </div>
         <div>
           <Link to="/login">
-            <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-indigo-500 hover:bg-white mt-4 lg:mt-0">Login</span>
+            <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-neutral-800 hover:bg-white mt-4 lg:mt-0">Login</span>
           </Link>
         </div> */}
         

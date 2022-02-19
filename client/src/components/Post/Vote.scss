@@ -4,7 +4,7 @@
 /* Container for skill bars */
 .bar-container {
   width: 100%; /* Full width */
-  background-color: #00bcd4; /* Grey background */
+  background-color: #828282; /* Grey background */
 }
 
 .votes {
@@ -14,4 +14,10 @@
   color: white; /* White text color */
 }
 
-.bar {width: 50%; background-color: #3f51b5;} /* Green */
+// .votes-box {
+//   border-radius: 10px;
+// background: linear-gradient(145deg, #ffffff, #e6e6e6);
+// box-shadow:  14px 14px 28px #828282,
+//              -14px -14px 28px #ffffff;
+// }
+.bar {width: 50%; background-color: #262626;} /* Green */

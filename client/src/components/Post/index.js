@@ -99,24 +99,24 @@ export default function Post(props) {
       {/* Question */}
       <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
         <div className="flex justify-center items-center">
-          <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
+          <a className="px-2 py-1 bg-black text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
         </div>
         <div className="mt-4">
-          <a className="text-lg text-gray-700 font-medium" href="#"> {listQuestions.title} </a>
+          <a className="text-lg text-gray font-medium" href="#"> {listQuestions.title} </a>
         </div>
         {/* Buttons */}
         <div className="flex flex-row justify-between p-8">
-          <button onClick={() => handleVoteA()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button onClick={() => handleVoteA()} className="bg-neutral-800 hover:bg-black text-white font-bold mx-2 py-2 px-4 rounded-full">
             {listQuestions.answer_a}
           </button>
-          <button onClick={() => handleVoteB()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button onClick={() => handleVoteB()} className="bg-gray-500 hover:bg-black text-white font-bold mx-2 py-2 px-4 rounded-full">
             {listQuestions.answer_b}
           </button>
         </div>
         {/* User && Date */}
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center">
-            <a className="text-gray-700 text-sm mx-3" href="#">User</a>
+            <a className="text-gray text-sm mx-3" href="#">User</a>
           </div>
           <span className="font-light text-sm text-gray-600">3 days ago</span>
         </div>
@@ -124,7 +124,7 @@ export default function Post(props) {
 
       {/* Vote */}
       <div className="form flex items-center justify-center p-4">
-        <div className="bg-white shadow-xl border p-8 w-3/6">
+        <div className="votes-box bg-white shadow-xl border p-8 w-3/6">
 
           {/* Status Bar */}
           <div className="bar-container">
@@ -149,7 +149,7 @@ export default function Post(props) {
             </div>
             <div>
               <h1 className="font-semibold">Andy Park</h1>
-              <p className="text-xs text-gray-500">10 minutes ago</p>
+              <p className="text-xs text-gray">10 minutes ago</p>
             </div>
           </div>
 
@@ -159,7 +159,7 @@ export default function Post(props) {
 
           <div className="flex justify-end p-4 mx-3">
             <div>
-              <button onClick={postComment} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
+              <button onClick={postComment} className="bg-black hover:bg-black text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
             </div>
           </div>
         </div>
