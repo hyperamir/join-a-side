@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-
+  include BCrypt
   has_secure_password
 
   has_many :questions
@@ -20,6 +20,15 @@ class User < ApplicationRecord
     else
       nil
     end
+  end
+
+  def password
+    @password ||= Password.new(password_digest)
+  end
+
+  def password=(new_password)
+    @password = Password.create(new_password)
+    self.password_digest = @password
   end
 
 end

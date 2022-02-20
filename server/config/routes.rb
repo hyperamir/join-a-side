@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'categories/index'
   get 'users/new'
   get 'users/create'
+  get 'users/show'
   get 'comments/index'
   get 'questions/index'
   post 'questions/create'

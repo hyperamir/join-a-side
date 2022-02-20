@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
@@ -25,6 +25,7 @@ export default function Post(props) {
     axios.all([getQuestion, getComment])
       .then(
         axios.spread((...allData) => {
+          console.log('...alldata:', allData)
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
@@ -44,10 +45,16 @@ export default function Post(props) {
     fetchData();
   }, [params.id]);
 
-
+  //using useRef hook to disable vote button after clicked
+  let btnA = useRef();
+  let btnB = useRef();
+  
   const handleVoteA = () => {
     setCountVoteA(countVoteA + 1)
-
+    //check if button clicked
+    if(btnA.current){
+      btnA.current.setAttribute("disabled", "disabled");
+    }
     let VoteABobj = {
       vote_a: countVoteA + 1,
       vote_b: countVoteB,
@@ -67,6 +74,10 @@ export default function Post(props) {
   const handleVoteB = () => {
     setCountVoteB(countVoteB + 1)
 
+    if(btnB.current){
+      btnB.current.setAttribute("disabled", "disabled");
+    }
+    
     let VoteABobj = {
       vote_a: countVoteA,
       vote_b: countVoteB + 1,
@@ -97,37 +108,37 @@ export default function Post(props) {
   return (
     <div>
       {/* Question */}
-      <div className="flex flex-col bg-white px-8 py-6 max-w-lg mx-auto rounded-lg shadow-xl border">
+      <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
         <div className="flex justify-center items-center">
           <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
         </div>
         <div className="mt-4">
-          <a className="text-lg text-gray-700 font-medium" href="#"> {listQuestions.title} </a>
+          <a className="text-lg text-gray font-medium" href="#"> {listQuestions.title} </a>
         </div>
         {/* Buttons */}
         <div className="flex flex-row justify-between p-8">
-          <button onClick={() => handleVoteA()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button ref={btnA} onClick={() => handleVoteA()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {listQuestions.answer_a}
           </button>
-          <button onClick={() => handleVoteB()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button ref={btnB} onClick={() => handleVoteB()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {listQuestions.answer_b}
           </button>
         </div>
         {/* User && Date */}
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center">
-            <a className="text-gray-700 text-sm mx-3" href="#">User</a>
+            <a className="text-gray text-sm mx-3" href="#">User</a>
           </div>
-          <span className="font-light text-sm text-gray-600">Date</span>
+          <span className="font-light text-sm text-gray-600">3 days ago</span>
         </div>
       </div>
 
       {/* Vote */}
-      <div className="flex items-center justify-center p-4">
-        <div className="bg-white shadow-xl border p-8 w-3/6">
+      <div className="form flex items-center justify-center p-4">
+        <div className="votes-box bg-white shadow-xl border p-8 w-3/6">
 
           {/* Status Bar */}
-          <div className="container">
+          <div className="bar-container">
             <div className="votes bar" style={{ width: getVotePercent(countVoteA, countVoteB) }}></div>
           </div>
           {/* listQuestions.vote_a, listQuestions.vote_b */}
@@ -140,26 +151,26 @@ export default function Post(props) {
       </div>
 
       {/* Submit Comments */}
-      <div class="flex justify-center items-center">
-        <div class="w-1/2 bg-white p-2 pt-4 rounded shadow-lg">
+      <div className="flex justify-center items-center">
+        <div className="bg-white shadow-xl border p-8 w-3/6">
 
-          <div class="flex ml-3">
-            <div class="mr-3">
-              <img src="http://picsum.photos/50" alt="" class="rounded-full" />
+          <div className="flex ml-3">
+            <div className="mr-3">
+              <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
             </div>
             <div>
-              <h1 class="font-semibold">Andy Park</h1>
-              <p class="text-xs text-gray-500">2 seconds ago</p>
+              <h1 className="font-semibold">Andy Park</h1>
+              <p className="text-xs text-gray">10 minutes ago</p>
             </div>
           </div>
 
-          <div class="mt-3 p-3 w-full">
-            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" class="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
+          <div className="mt-3 p-3 w-full">
+            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
           </div>
 
-          <div class="flex justify-end p-4 mx-3">
+          <div className="flex justify-end p-4 mx-3">
             <div>
-              <button onClick={postComment} class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
+              <button onClick={postComment} className="bg-indigo-700 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
             </div>
           </div>
         </div>
@@ -167,7 +178,8 @@ export default function Post(props) {
       </div>
       {/* Comment section */}
       <div className="flex items-center justify-center p-2">
-        <div className="bg-white shadow-xl border p-8 w-3xl">
+        <div className="bg-white shadow-xl border p-8 w-3/6">
+          <h1 className="p-4"><b>Comments</b></h1>
 
           {/* Populate comments */}
           {
@@ -175,9 +187,9 @@ export default function Post(props) {
               return (
                 <div>
                   <div className="flex justify-center items-center mb-8">
-                    <div className="w-1/5">
+                    {/* <div className="w-1/5">
                       <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://picsum.photos/20/30" alt="user image" />
-                    </div>
+                    </div> */}
                     <div className="w-4/5">
                       <div>
                         <span className="font-semibold text-gray-800">Username{comments.id}</span>
