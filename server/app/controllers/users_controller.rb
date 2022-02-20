@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     end
   end  
   
-  def show 
+  def login 
     #User.authenticate_with_credentials(:userName, :password)
     puts "pass #{params[:password]}"
     puts "email #{params[:email]}"

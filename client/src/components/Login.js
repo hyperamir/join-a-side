@@ -14,7 +14,7 @@ export default function Login(props) {
     }
    
     console.log(usersObject);
-    axios.get("users/show",{params: usersObject})
+    axios.get("users/login",{params: usersObject})
     .then(response => {
       //console.log(response.data);
       props.setUser(response.data);
