@@ -83,13 +83,14 @@ export default function Post(props) {
   }
 
   const postComment = () => {
-    const tempUser = getCurrentPath();
+    const user_id = props.user.id;
     const question_id = getCurrentPath();
     const commentObject = {
       comment: newComment,
-      question_id: tempUser,
-      user_id: question_id
+      question_id: question_id,
+      user_id: user_id
     }
+    console.log(commentObject);
 
     axios.post("http://localhost:3000/comments", commentObject)
       .then((response) => {
@@ -102,12 +103,12 @@ export default function Post(props) {
 
   const deleteComment = (commentId) => {
 
-    const tempUser = getCurrentPath();
+    const user_id = props.user.id;
     const question_id = getCurrentPath();
     const commentObject = {
       comment_id: commentId,
-      question_id: tempUser,
-      user_id: question_id
+      question_id: question_id,
+      user_id: user_id
     }
     if (window.confirm("Are you sure you want to remove comment?")) {
       axios.delete(`http://localhost:3000/comments/${commentId}`, commentObject)
@@ -199,6 +200,7 @@ export default function Post(props) {
           {/* Populate comments */}
           {
             listComments.map(comments => {
+              console.log(comments.id);
               return (
                 <div key={comments.id}>
                   <div className="flex justify-center items-center mb-8">
