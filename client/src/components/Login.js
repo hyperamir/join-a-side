@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import  axios from 'axios';
-import { useParams } from 'react-router-dom';
-import bcrypt from 'bcrypt';
+// import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 export default function Login(props) {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
-  //const bcrypt = require('bcrypt');
+  const navigate = useNavigate();
   const login = async () => {
     const usersObject = {
       email: loginEmail,
@@ -17,9 +16,14 @@ export default function Login(props) {
     console.log(usersObject);
     axios.get("users/show",{params: usersObject})
     .then(response => {
-      console.log(response.data);
+      //console.log(response.data);
+      props.setUser(response.data);
+      navigate("/");
+
     });
+    
   }
+
  
   return (
     <div className="login">

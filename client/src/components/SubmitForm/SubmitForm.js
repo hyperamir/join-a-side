@@ -11,8 +11,6 @@ export default function SubmitForm(props) {
   const [user, setUser] = useState("");
   const [category, setCategory] = useState({name: "", id: 0});
 
-  
-
   useEffect(() => {
     getAllCategorys();
     console.log(categoriesList)

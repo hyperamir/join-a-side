@@ -24,21 +24,16 @@ function App() {
   // changes user 
   //const [user, setUser] = useState({});
   const [user, setUser] = useState(null);
-  const auth = getAuth();
   //console.log(auth);
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user.email)
-        console.log("sign in")
-      } else {
-        console.log("sign out")
-        setUser(null)
-      }
-    });
-  }, [])
-
-  //console.log(user);
+  // useEffect(() => {
+  //     if (user) {
+  //       setUser(user.email)
+  //       console.log("sign in")
+  //     } else {
+  //       console.log("sign out")
+  //       setUser(null)
+  //     }
+  // }, [])
 
   return (
     <Router>
@@ -49,11 +44,11 @@ function App() {
         {/* Add components here which will be re-rendered */}
         <Routes>
           {/* <Route path="/" element={<Post />} /> */}
-          <Route path="/users" element={<SubmitForm />}/>
-          <Route path="/signup" element={<Register/>}/>
-          <Route path="/login" setUser={setUser} element={<Login />}/>
+          <Route path="/users" element={<SubmitForm user={user} />}/>
+          <Route path="/signup" element={<Register setUser={setUser} />}/>
+          <Route path="/login"  element={<Login setUser={setUser} />}/>
           <Route path="/categories/:id" element={<QuestionList />}/>
-          <Route path="/categories/:id/:question_id" element={<Post />}/>
+          <Route path="/categories/:id/:question_id" element={<Post user={user} />}/>
 
           {/* Send users to this route if such url doesn't exist */}
           {/* <Route path="/*" element={<Navigate to="/categories/:id"/>}/> */}
