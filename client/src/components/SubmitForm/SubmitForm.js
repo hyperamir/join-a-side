@@ -120,6 +120,9 @@ export default function SubmitForm(props) {
       }
       console.log("post this",questionObject);
       axios.post("questions/create", questionObject)
+      .then((response)=>{
+        console.log('create response:', response)
+      })
       .catch(error => {
         console.log(error);
       });
