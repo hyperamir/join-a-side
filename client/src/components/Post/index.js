@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
@@ -25,6 +25,7 @@ export default function Post(props) {
     axios.all([getQuestion, getComment])
       .then(
         axios.spread((...allData) => {
+          console.log('...alldata:', allData)
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
@@ -44,10 +45,16 @@ export default function Post(props) {
     fetchData();
   }, [params.id]);
 
-
+  //using useRef hook to disable vote button after clicked
+  let btnA = useRef();
+  let btnB = useRef();
+  
   const handleVoteA = () => {
     setCountVoteA(countVoteA + 1)
-
+    //check if button clicked
+    if(btnA.current){
+      btnA.current.setAttribute("disabled", "disabled");
+    }
     let VoteABobj = {
       vote_a: countVoteA + 1,
       vote_b: countVoteB,
@@ -67,6 +74,10 @@ export default function Post(props) {
   const handleVoteB = () => {
     setCountVoteB(countVoteB + 1)
 
+    if(btnB.current){
+      btnB.current.setAttribute("disabled", "disabled");
+    }
+    
     let VoteABobj = {
       vote_a: countVoteA,
       vote_b: countVoteB + 1,
@@ -106,10 +117,10 @@ export default function Post(props) {
         </div>
         {/* Buttons */}
         <div className="flex flex-row justify-between p-8">
-          <button onClick={() => handleVoteA()} className="bg-neutral-800 hover:bg-black text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button ref={btnA} onClick={() => handleVoteA()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {listQuestions.answer_a}
           </button>
-          <button onClick={() => handleVoteB()} className="bg-gray-500 hover:bg-black text-white font-bold mx-2 py-2 px-4 rounded-full">
+          <button ref={btnB} onClick={() => handleVoteB()} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">
             {listQuestions.answer_b}
           </button>
         </div>
