@@ -110,7 +110,7 @@ export default function Post(props) {
       {/* Question */}
       <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
         <div className="flex justify-center items-center">
-          <a className="px-2 py-1 bg-black text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
+          <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
         </div>
         <div className="mt-4">
           <a className="text-lg text-gray font-medium" href="#"> {listQuestions.title} </a>
@@ -170,7 +170,7 @@ export default function Post(props) {
 
           <div className="flex justify-end p-4 mx-3">
             <div>
-              <button onClick={postComment} className="bg-black hover:bg-black text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
+              <button onClick={postComment} className="bg-indigo-700 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
             </div>
           </div>
         </div>
