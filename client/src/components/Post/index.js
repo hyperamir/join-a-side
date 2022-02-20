@@ -187,9 +187,9 @@ export default function Post(props) {
               return (
                 <div>
                   <div className="flex justify-center items-center mb-8">
-                    <div className="w-1/5">
+                    {/* <div className="w-1/5">
                       <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://picsum.photos/20/30" alt="user image" />
-                    </div>
+                    </div> */}
                     <div className="w-4/5">
                       <div>
                         <span className="font-semibold text-gray-800">Username{comments.id}</span>

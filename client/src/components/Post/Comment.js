@@ -11,9 +11,9 @@ export default function Comment(props) {
             <h1 className="font-semibold text-gray-800">Comment Section for both Answers 1 and Answer 2</h1>
           </div>
           <div className="flex justify-center items-center mb-8">
-            <div className="w-1/5">
+            {/* <div className="w-1/5">
               <img className="w-12 h-12 rounded-full border border-gray-100 shadow-sm" src="https://randomuser.me/api/portraits/men/20.jpg" alt="user image" />
-            </div>
+            </div> */}
             <div className="w-4/5">
               <div>
                 <span className="font-semibold text-gray-800">Ezio Dani</span>
