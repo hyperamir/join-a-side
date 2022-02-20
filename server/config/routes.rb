@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :questions
   end
 
-  resources :comments, only: [:create, :show]
+  resources :comments, only: [:create, :show, :destroy]
   resources :votes
   # get '*path', to: 'categories#index', via: :all
 end

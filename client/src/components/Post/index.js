@@ -92,10 +92,33 @@ export default function Post(props) {
     }
 
     axios.post("http://localhost:3000/comments", commentObject)
-    .then((response)=> {
-      setListComments([...listComments, response.data])
-    })
+      .then((response) => {
+        console.log('post response:', response)
+        setListComments([...listComments, response.data])
+        //clean the textarea after submitting the comment
+        setNewComment("")
+      })
   }
+
+  const deleteComment = (commentId) => {
+
+    const tempUser = getCurrentPath();
+    const question_id = getCurrentPath();
+    const commentObject = {
+      comment_id: commentId,
+      question_id: tempUser,
+      user_id: question_id
+    }
+    if (window.confirm("Are you sure you want to remove comment?")) {
+      axios.delete(`http://localhost:3000/comments/${commentId}`, commentObject)
+        .then((response) => {
+          let newList = [...listComments];
+          const newerList = newList.filter((comment) => comment.id !== commentId)
+          setListComments(newerList)
+        })
+    }
+  }
+
 
   return (
     <div>
@@ -192,6 +215,9 @@ export default function Post(props) {
                       <div>
                         <a href="" className="text-gray-400">Created at</a>
                         <p>{comments.created_at}</p>
+                      </div>
+                      <div>
+                        <button onClick={() => deleteComment(comments.id)}>Delete</button>
                       </div>
                     </div>
                   </div>

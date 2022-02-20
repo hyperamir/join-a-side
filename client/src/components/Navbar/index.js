@@ -11,8 +11,6 @@ export default function Navbar(props) {
 
   useEffect(() => {
     axios.get('http://localhost:3000/categories').then((response) => {
-      console.log('data from back end!!: ')
-      console.log(response)
       setCategories(response.data)
     }).catch(e => {
       console.log('error:', e)
