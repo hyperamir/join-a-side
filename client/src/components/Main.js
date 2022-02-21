@@ -13,7 +13,7 @@ export default function Comment(props) {
         <div className="grid grid-cols-2 p-10 m-10">
           <div className="justify-center align-middle mt-10">
           <FontAwesomeIcon icon={solid('arrow-up')} />
-          <p class="font-semibold">Pick a category above, and then join the conversation</p>
+          <p className="font-semibold">Pick a category above, and then join the conversation</p>
           </div>
           <img src={ ArtTwo } />
           <img src={ ArtOne } />

@@ -122,6 +122,21 @@ export default function Post(props) {
     }
   }
 
+  const getUserName = (user_id) => {
+    let firstName = "notFound";
+    let lastName = "notFound";
+    const header = {
+      user_id: user.id
+    }
+    return axios.get("http://localhost:3000/users/show", { params: header })
+      .then((response) => {
+        console.log('first last:', response)
+        firstName = response.data.first_name;
+        lastName = response.data.last_name;
+      });
+  }
+  
+  getUserName(7);
   return (
     <div>
       {/* Question */}

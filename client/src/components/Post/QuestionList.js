@@ -32,14 +32,14 @@ export default function QuestionList(props) {
               {/* Question */}
               <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
                 <div className="flex justify-center items-center">
-                  <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {question.id}</a>
+                  <p className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded">Question {question.id}</p>
                 </div>
                 <div className="mt-4">
-                  <a className="text-lg text-gray-700 font-medium" href="#">{question.title}</a>
+                  <p className="text-lg text-gray-700 font-medium">{question.title}</p>
                 </div>
                 <div className="flex justify-between items-center mt-4">
                   <div className="flex items-center">
-                    <a className="text-gray-700 text-sm mx-3" href="#">User {question.user_id}</a>
+                    <p className="text-gray-700 text-sm mx-3">User {question.user_id}</p>
                   </div>
                   <span className="font-light text-sm text-gray-600">Date</span>
                 </div>
