@@ -99,7 +99,7 @@ export default function Post(props) {
       .then((response) => {
         setListComments([...listComments, response.data])
         //clean the textarea after submitting the comment
-        setNewComment("")
+        setNewComment('')
       })
   }
 
@@ -123,6 +123,7 @@ export default function Post(props) {
     }
   }
 
+  
   return (
     <div className="question-banner">
       {/* Question */}
@@ -183,7 +184,7 @@ export default function Post(props) {
           </div>
 
           <div className="mt-3 p-3 w-full">
-            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
+            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>
           </div>
 
           <div className="flex justify-end p-4 mx-3">
