@@ -159,7 +159,7 @@ export default function SubmitForm(props) {
     <div className="submit-banner bg-cover bg-center">
       <div className="flex justify-center">
         <div className="flex items-center justify-center m-20 p-20">
-          <div className="bg-white shadow-xl border p-8 w-3xl">
+          <div className="bg-white shadow-xl border p-8 w-3xl opacity-90">
 
             {/* Submit Form */}
             <form className="w-full max-w-lg">

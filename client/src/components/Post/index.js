@@ -126,7 +126,7 @@ export default function Post(props) {
   return (
     <div className="question-banner">
       {/* Question */}
-      <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
+      <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border opacity-90">
         <div className="flex justify-center items-center">
           <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {listQuestions.id}</a>
         </div>
@@ -153,7 +153,7 @@ export default function Post(props) {
 
       {/* Vote */}
       <div className="form flex items-center justify-center p-4">
-        <div className="votes-box bg-white shadow-xl border p-8 w-3/6">
+        <div className="votes-box bg-white shadow-xl border p-8 w-3/6 opacity-90">
 
           {/* Status Bar */}
           <div className="bar-container">
@@ -170,7 +170,7 @@ export default function Post(props) {
 
       {/* Submit Comments */}
       <div className="flex justify-center items-center">
-        <div className="bg-white shadow-xl border p-8 w-3/6">
+        <div className="bg-white shadow-xl border p-8 w-3/6 opacity-90">
 
           <div className="flex ml-3">
             <div className="mr-3">
@@ -196,7 +196,7 @@ export default function Post(props) {
       </div>
       {/* Comment section */}
       <div className="flex items-center justify-center p-2">
-        <div className="bg-white shadow-xl border p-8 w-3/6">
+        <div className="bg-white shadow-xl border p-8 w-3/6 opacity-90">
           <h1 className="p-4"><b>Comments</b></h1>
 
           {/* Populate comments */}
