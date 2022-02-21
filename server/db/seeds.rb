@@ -45,6 +45,7 @@ User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_nam
 User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image04.png'))
 User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image05.png'))
 User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: '1234', password_confirmation: '1234', img: open_asset('image06.png'))
+User.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: 'example@gmail.com', password: '1234', password_confirmation: '1234', img: open_asset('image06.png'))
 
 
 Question.create(category_id: 1, user_id: 1, title: 'Do you guys like Call of Duty or Halo?', answer_a: 'Call of Duty', answer_b: 'Halo')
