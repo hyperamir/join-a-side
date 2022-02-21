@@ -5,7 +5,7 @@ import "./Vote.scss";
 import "./Question.scss";
 import "./index.scss"
 import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
-
+import moment from 'moment'
 
 export default function Post(props) {
   const { user } = props
@@ -123,7 +123,7 @@ export default function Post(props) {
     }
   }
 
-  
+
   return (
     <div className="question-banner">
       {/* Question */}
@@ -203,6 +203,7 @@ export default function Post(props) {
           {/* Populate comments */}
           {
             listComments.map(comments => {
+              let localTime = moment(new Date(comments.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
               return (
                 <div key={comments.id}>
                   <div className="flex justify-center items-center mb-8">
@@ -218,7 +219,7 @@ export default function Post(props) {
                       </div>
                       <div>
                         <a href="" className="text-gray-400">Created at</a>
-                        <p>{comments.created_at}</p>
+                        <p>{localTime}</p>
                       </div>
                       <div>
                         {user.id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
