@@ -98,7 +98,7 @@ export default function Post(props) {
       .then((response) => {
         setListComments([...listComments, response.data])
         //clean the textarea after submitting the comment
-        setNewComment("")
+        setNewComment('')
       })
   }
 
@@ -122,21 +122,7 @@ export default function Post(props) {
     }
   }
 
-  const getUserName = (user_id) => {
-    let firstName = "notFound";
-    let lastName = "notFound";
-    const header = {
-      user_id: user.id
-    }
-    return axios.get("http://localhost:3000/users/show", { params: header })
-      .then((response) => {
-        console.log('first last:', response)
-        firstName = response.data.first_name;
-        lastName = response.data.last_name;
-      });
-  }
   
-  getUserName(7);
   return (
     <div>
       {/* Question */}
@@ -197,7 +183,7 @@ export default function Post(props) {
           </div>
 
           <div className="mt-3 p-3 w-full">
-            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..."></textarea>
+            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>
           </div>
 
           <div className="flex justify-end p-4 mx-3">
