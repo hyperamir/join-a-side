@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom'
 import Banner from './art/Banner.png'
 import ArtOne from './art/Art1.png'
 import ArtTwo from './art/Art2.png'
+import "./SubmitForm/SubmitForm.scss";
 
 export default function Comment(props) {
   return (
     <div>
+      <div className="submit-banner"></div>
       <img src={ Banner } />
         <div className="grid grid-cols-2 p-10 m-10">
           <div className="justify-center align-middle mt-10">
