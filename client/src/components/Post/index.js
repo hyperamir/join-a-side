@@ -95,7 +95,6 @@ export default function Post(props) {
 
     axios.post("http://localhost:3000/comments", commentObject)
       .then((response) => {
-        console.log('post response:', response)
         setListComments([...listComments, response.data])
         //clean the textarea after submitting the comment
         setNewComment("")
@@ -111,7 +110,6 @@ export default function Post(props) {
       question_id: question_id,
       user_id: user.id
     }
-    console.log('commentobj:', commentObject)
 
     if (window.confirm("Are you sure you want to remove comment?")) {
       axios.delete(`http://localhost:3000/comments/${commentId}`, commentObject)
@@ -123,7 +121,6 @@ export default function Post(props) {
     }
   }
 
-  console.log('current user:', user)
   return (
     <div>
       {/* Question */}
@@ -203,7 +200,7 @@ export default function Post(props) {
           {/* Populate comments */}
           {
             listComments.map(comments => {
-              console.log('comments:',comments)
+
               return (
                 <div key={comments.id}>
                   <div className="flex justify-center items-center mb-8">
