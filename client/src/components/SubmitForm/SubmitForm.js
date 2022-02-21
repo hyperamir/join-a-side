@@ -3,7 +3,6 @@ import axios from "axios"
 import Category from "./Catagory"
 import Error from "./Error"
 import "./SubmitForm.scss";
-import SubmitBanner from "../art/submit_cover.png"
 
 export default function SubmitForm(props) {
   const [errorList, SetErrorList] = useState(["","","","",""]);

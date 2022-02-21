@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { getVotePercent } from '../helpers/helper';
 import axios from 'axios';
-import Post from '.';
+import "./QuestionList.scss";
 
 import "./Vote.scss";
 import "./Question.scss";
@@ -24,13 +24,13 @@ export default function QuestionList(props) {
   }, [params.id]); 
 
   return (
-    <div>
+    <div className="list-banner bg-cover bg-center">
       {
         category.map(question => {
           return (
             <Link key={question.id} to={`/categories/${question.category_id}/${question.id}`}>
               {/* Question */}
-              <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
+              <div className="flex flex-col bg-white p-8 m-10 w-3/6 mx-auto rounded-lg shadow-xl border">
                 <div className="flex justify-center items-center">
                   <a className="px-2 py-1 bg-indigo-700 text-sm text-green-100 rounded" href="#">Question {question.id}</a>
                 </div>
