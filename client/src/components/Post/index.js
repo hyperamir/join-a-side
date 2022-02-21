@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
+import "./index.scss"
 import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
 
 
@@ -123,7 +124,7 @@ export default function Post(props) {
   }
 
   return (
-    <div>
+    <div className="question-banner">
       {/* Question */}
       <div className="flex flex-col bg-white p-8 w-3/6 mx-auto rounded-lg shadow-xl border">
         <div className="flex justify-center items-center">
