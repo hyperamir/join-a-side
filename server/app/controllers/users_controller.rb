@@ -13,22 +13,24 @@ class UsersController < ApplicationController
     end
   end  
   
+  def show
+    puts "user_id #{params[params[:user_id]]}"
+    user = User.find_by_id(params[:user_id])
+    #user = User.find_by id: params[:user_id] 
+    #user = User.find_by_id id: params[:user_id] 
+    userName = {
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    render json: userName
+
+  end
+
   def login 
-    #User.authenticate_with_credentials(:userName, :password)
-    puts "pass #{params[:password]}"
-    puts "email #{params[:email]}"
-    # hash = BCrypt::Password.create(params[:password])
-    # puts "hash #{hash}"
     @user = User.find_by_email(params[:email])
       if @user.password == params[:password]
-        puts "yay"
         render json: @user
       end
-    #p :email 
-    #user = User.find_by(email: params[:email], password_digest: hash)
-    #Person.find_by(name: 'Spartacus', rating: 4)
-    # puts password:
-    puts "user #{@user}"
     
     end
 
