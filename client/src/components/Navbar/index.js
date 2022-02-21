@@ -8,6 +8,22 @@ import { Link } from 'react-router-dom'
 
 export default function Navbar(props) {
   const [categories, setCategories] = useState([]);
+  const [navbar, setNavbar] = useState([false]);
+
+  const controlNavbar = () => {
+    if (window.scrollY > 30) {
+      setNavbar(true)
+    } else {
+      setNavbar(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', controlNavbar)
+    return () => {
+      window.removeEventListener('scroll', controlNavbar)
+    }
+  }, [])
 
   useEffect(() => {
     axios.get('http://localhost:3000/categories').then((response) => {
@@ -22,7 +38,7 @@ export default function Navbar(props) {
   // })
 
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-indigo-500 p-6">
+    <nav className={navbar ? "sticky top-0 z-50 flex items-center justify-between flex-wrap bg-indigo-500 p-6 drop-shadow-3xl" : "sticky top-0 z-50 flex items-center justify-between flex-wrap bg-indigo-500 p-6"}>
 
       {/* Logo */}
       <div className="flex items-center flex-shrink-0 text-white mr-6">
