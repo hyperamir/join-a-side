@@ -7,6 +7,8 @@ import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/he
 
 
 export default function Post(props) {
+  const { user } = props
+
   const [question, setQuestion] = useState([]);
   const [comment, setComment] = useState([]);
   const [countVoteA, setCountVoteA] = useState(0)
@@ -88,13 +90,12 @@ export default function Post(props) {
     const commentObject = {
       comment: newComment,
       question_id: question_id,
-      user_id: user_id
+      user_id: user.id
     }
     console.log(commentObject);
 
     axios.post("http://localhost:3000/comments", commentObject)
       .then((response) => {
-        console.log('post response:', response)
         setListComments([...listComments, response.data])
         //clean the textarea after submitting the comment
         setNewComment("")
@@ -108,8 +109,9 @@ export default function Post(props) {
     const commentObject = {
       comment_id: commentId,
       question_id: question_id,
-      user_id: user_id
+      user_id: user.id
     }
+
     if (window.confirm("Are you sure you want to remove comment?")) {
       axios.delete(`http://localhost:3000/comments/${commentId}`, commentObject)
         .then((response) => {
@@ -119,7 +121,6 @@ export default function Post(props) {
         })
     }
   }
-
 
   return (
     <div>
@@ -200,7 +201,6 @@ export default function Post(props) {
           {/* Populate comments */}
           {
             listComments.map(comments => {
-              console.log(comments.id);
               return (
                 <div key={comments.id}>
                   <div className="flex justify-center items-center mb-8">
@@ -209,7 +209,7 @@ export default function Post(props) {
                     </div> */}
                     <div className="w-4/5">
                       <div>
-                        <span className="font-semibold text-gray-800">Username{comments.id}</span>
+                        <span className="font-semibold text-gray-800">{user.first_name} {user.last_name}</span>
                       </div>
                       <div className="">
                         <a href="" className="text-black-600 mr-2">{comments.comment}</a>
@@ -219,7 +219,7 @@ export default function Post(props) {
                         <p>{comments.created_at}</p>
                       </div>
                       <div>
-                        <button onClick={() => deleteComment(comments.id)}>Delete</button>
+                        {user.id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
                       </div>
                     </div>
                   </div>

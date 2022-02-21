@@ -18,7 +18,7 @@ export default function Comment(props) {
           <img src={ ArtTwo } />
           <img src={ ArtOne } />
           <div className="justify-center align-middle mt-20">
-            <p class="font-semibold">You have two things in mind, and can't decide on which one. </p>
+            <p className="font-semibold">You have two things in mind, and can't decide on which one. </p>
               <Link to="/users" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
                 <button className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold mt-4 py-2 px-4 rounded-full">
                   Create a Question
