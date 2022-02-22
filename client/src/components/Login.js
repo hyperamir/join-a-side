@@ -1,28 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import  axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Error from "./Error"
 export default function Login(props) {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [errorList, setErrorList] = useState(["", ""]);
+
   const navigate = useNavigate();
   const login = async () => {
-    const usersObject = {
-      email: loginEmail,
-      password: loginPassword
+    const errors = ["",""];
+    if (loginEmail === ""){
+      errors[0] = "Username must not be blank";
+    } else if (loginPassword === "") {
+      errors[1] ="Password must not be blank";
+    } else {
+
+      const usersObject = {
+        email: loginEmail,
+        password: loginPassword
+      };
+     
+      await axios.get("users/login",{params: usersObject})
+      .then(response => {
+        if (!response.data){
+          errors[1] = "Could not find account with this username and password";
+        } else {
+          props.setUser(response.data);
+          
+        }
+      }).catch(() => {
+        errors[1] = "Could not find account with this username and password";
+      }) 
     }
-   
-    console.log(usersObject);
-    axios.get("users/login",{params: usersObject})
-    .then(response => {
-      //console.log(response.data);
-      props.setUser(response.data);
-      navigate("/");
-
-    });
-    
+    setErrorList(errors)
+    if (errors[0] === "" && errors[1] === "") {
+      navigate("/")
+    }
   }
-
  
   return (
     <div className="flex flex-row justify-center">
@@ -32,27 +48,44 @@ export default function Login(props) {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
               Email
             </label>
-            <input 
+            {!errorList[0] &&<input 
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
             id="username" 
             type="text" 
             placeholder="Username"
             onChange={(event) => {setLoginEmail(event.target.value)}}
-            />
+            />}
+             {errorList[0] &&<input 
+            className="shadow appearance-none border  border-red-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            id="username" 
+            type="text" 
+            placeholder="Username"
+            onChange={(event) => {setLoginEmail(event.target.value)}}
+            />}
+            <Error error={errorList[0]} />
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
               Password
             </label>
-            <input 
+            {!errorList[1] &&<input 
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
+            id="password" 
+            type="password" 
+            placeholder="******************"
+            onChange={(event) => {setLoginPassword(event.target.value)}}
+            />}
+            {errorList[1] &&<input 
             className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
             id="password" 
             type="password" 
             placeholder="******************"
             onChange={(event) => {setLoginPassword(event.target.value)}}
-            />
+            />}
+             <Error error={errorList[1]} />
             {/* <p className="text-red-500 text-xs italic">Please choose a password.</p> */}
           </div>
+         
           <div className="flex items-center justify-between">
             <button 
             className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
