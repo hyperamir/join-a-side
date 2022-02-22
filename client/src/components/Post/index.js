@@ -207,7 +207,10 @@ export default function Post(props) {
 
           <div className="flex ml-3">
             <div className="mr-3">
-              <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
+              { user 
+              ? <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
+              : ''
+              }
             </div>
             
             <div>
