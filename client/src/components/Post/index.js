@@ -29,8 +29,6 @@ export default function Post(props) {
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
-         
-          console.log(getQuestionsComments)
 
           setCountVoteA(getAllQuestions.vote_a)
           setCountVoteB(getAllQuestions.vote_b)
@@ -51,12 +49,14 @@ export default function Post(props) {
       const header = {
         user_id: comments.user_id
       }
+      
       return axios.get("http://localhost:3000/users/show", {params: header} )
       .then((res) => {
        
         const name = {
           first_name: res.data.first_name,
-          last_name: res.data.last_name 
+          last_name: res.data.last_name,
+          user_id: user.id
         };
 
       return name
@@ -64,7 +64,6 @@ export default function Post(props) {
       })
     }))
 
-    console.log(results);
     return results;
   }
 
@@ -118,7 +117,6 @@ export default function Post(props) {
   }
 
   const postComment = () => {
-    const user_id = props.user.id;
     const question_id = getCurrentPath();
     const commentObject = {
       comment: newComment,
@@ -136,8 +134,6 @@ export default function Post(props) {
   }
 
   const deleteComment = (commentId) => {
-
-    const user_id = props.user.id;
     const question_id = getCurrentPath();
     const commentObject = {
       comment_id: commentId,
@@ -151,6 +147,7 @@ export default function Post(props) {
           let newList = [...listComments];
           const newerList = newList.filter((comment) => comment.id !== commentId)
           setListComments(newerList)
+          fetchData()
         })
     }
   }
@@ -245,13 +242,13 @@ export default function Post(props) {
           {             
             listComments.map((comments, index) => {
               let localTime = moment(new Date(comments.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
-              console.log(commentNameList)
-              console.log("comments.id", index)
+
               let user = null
               if (index < commentNameList.length) {
                 user = {
                   first_name: commentNameList[index].first_name,
-                  last_name: commentNameList[index].last_name
+                  last_name: commentNameList[index].last_name,
+                  user_id: commentNameList[index].user_id
                 }
               }
               else {
@@ -278,7 +275,7 @@ export default function Post(props) {
                         <p>{localTime}</p>
                       </div>
                       <div>
-                        {user.id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
+                        {user.user_id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
                       </div>
                     </div>
                   </div>
