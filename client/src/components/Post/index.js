@@ -10,8 +10,6 @@ import moment from 'moment'
 export default function Post(props) {
   const { user } = props
 
-  const [question, setQuestion] = useState([]);
-  const [comment, setComment] = useState([]);
   const [countVoteA, setCountVoteA] = useState(0)
   const [countVoteB, setCountVoteB] = useState(0)
   const [listQuestions, setListQuestions] = useState([]);
@@ -211,9 +209,18 @@ export default function Post(props) {
             <div className="mr-3">
               <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
             </div>
+            
             <div>
-              <h1 className="font-semibold">Andy Park</h1>
-              <p className="text-xs text-gray">10 minutes ago</p>
+              { user 
+              ? <div>
+                  <h1 className="font-semibold">{user.first_name} {user.last_name}</h1>
+                  <p className="text-xs text-gray">10 minutes ago</p>
+                </div> 
+              : <div>
+                  <h1 className="font-semibold">Please Login!</h1>
+                  <a className="text-xs text-gray">Join the conversation</a>
+                </div>
+              }
             </div>
           </div>
 
@@ -223,7 +230,7 @@ export default function Post(props) {
 
           <div className="flex justify-end p-4 mx-3">
             <div>
-              <button onClick={postComment} className="bg-indigo-700 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
+              <button onClick={postComment} className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold mx-2 py-2 px-4 rounded-full">Submit</button>
             </div>
           </div>
         </div>
@@ -235,9 +242,7 @@ export default function Post(props) {
           <h1 className="p-4"><b>Comments</b></h1>
 
           {/* Populate comments */}
-          {
-            
-             
+          {             
             listComments.map((comments, index) => {
               let localTime = moment(new Date(comments.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
               console.log(commentNameList)
