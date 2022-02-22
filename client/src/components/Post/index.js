@@ -16,7 +16,7 @@ export default function Post(props) {
   const [listQuestions, setListQuestions] = useState([]);
   const [listComments, setListComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [commentNameList, setcommentNameList] = useState(null);
+  const [commentNameList, setcommentNameList] = useState([]);
   const params = useParams();
 
   const fetchData = async () => {
@@ -71,9 +71,10 @@ export default function Post(props) {
 
   useEffect(() => {
     fetchData();
-  }, [params.id]);
-  useEffect(()=>{
+  }, [params.id, listComments]);
 
+  useEffect(()=>{
+    
   }, [commentNameList])
 
   //using useRef hook to disable vote button after clicked
@@ -236,7 +237,7 @@ export default function Post(props) {
               console.log(commentNameList)
               console.log("comments.id", index)
               let user = null
-              if (commentNameList !== null) {
+              if (index < commentNameList.length) {
                 user = {
                   first_name: commentNameList[index].first_name,
                   last_name: commentNameList[index].last_name
