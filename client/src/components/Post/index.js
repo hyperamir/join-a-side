@@ -4,6 +4,7 @@ import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
 import "./index.scss"
+import Error from "./Error"
 import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
 import moment from 'moment'
 
@@ -16,6 +17,7 @@ export default function Post(props) {
   const [listComments, setListComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [commentNameList, setcommentNameList] = useState([]);
+  const [error, setError] = useState("");
   const params = useParams();
 
   const fetchData = async () => {
@@ -29,8 +31,6 @@ export default function Post(props) {
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
-         
-          console.log(getQuestionsComments)
 
           setCountVoteA(getAllQuestions.vote_a)
           setCountVoteB(getAllQuestions.vote_b)
@@ -51,12 +51,14 @@ export default function Post(props) {
       const header = {
         user_id: comments.user_id
       }
+      
       return axios.get("http://localhost:3000/users/show", {params: header} )
       .then((res) => {
        
         const name = {
           first_name: res.data.first_name,
-          last_name: res.data.last_name 
+          last_name: res.data.last_name,
+          user_id: user.id
         };
 
       return name
@@ -64,7 +66,6 @@ export default function Post(props) {
       })
     }))
 
-    console.log(results);
     return results;
   }
 
@@ -118,26 +119,37 @@ export default function Post(props) {
   }
 
   const postComment = () => {
-    const user_id = props.user.id;
-    const question_id = getCurrentPath();
-    const commentObject = {
-      comment: newComment,
-      question_id: question_id,
-      user_id: user.id
-    }
+    if (user === null) {
+      setError("You must be login in!");
 
-    axios.post("http://localhost:3000/comments", commentObject)
+    } else if (newComment.length > 80) {
+      setError("Max char limit is 80!");
+
+    } else if (newComment <= 0){
+      setError("Error comment cant be empty!");
+    } else {
+      setError("");
+        const question_id = getCurrentPath();
+        const commentObject = {
+        comment: newComment,
+        question_id: question_id,
+        user_id: user.id
+      }
+
+    
+
+      axios.post("http://localhost:3000/comments", commentObject)
       .then((response) => {
         setListComments([...listComments, response.data])
         //clean the textarea after submitting the comment
-        setNewComment("")
-        fetchData()
+        setNewComment("");
+        fetchData();
       })
+    }
+    
   }
 
   const deleteComment = (commentId) => {
-
-    const user_id = props.user.id;
     const question_id = getCurrentPath();
     const commentObject = {
       comment_id: commentId,
@@ -151,6 +163,7 @@ export default function Post(props) {
           let newList = [...listComments];
           const newerList = newList.filter((comment) => comment.id !== commentId)
           setListComments(newerList)
+          fetchData()
         })
     }
   }
@@ -228,7 +241,10 @@ export default function Post(props) {
           </div>
 
           <div className="mt-3 p-3 w-full">
-            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>
+            {error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 border-red-500 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+            {!error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+             {/* <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea> */}
+              {<Error error={error} />}
           </div>
 
           <div className="flex justify-end p-4 mx-3">
@@ -248,13 +264,13 @@ export default function Post(props) {
           {             
             listComments.map((comments, index) => {
               let localTime = moment(new Date(comments.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
-              console.log(commentNameList)
-              console.log("comments.id", index)
+
               let user = null
               if (index < commentNameList.length) {
                 user = {
                   first_name: commentNameList[index].first_name,
-                  last_name: commentNameList[index].last_name
+                  last_name: commentNameList[index].last_name,
+                  user_id: commentNameList[index].user_id
                 }
               }
               else {
@@ -281,7 +297,7 @@ export default function Post(props) {
                         <p>{localTime}</p>
                       </div>
                       <div>
-                        {user.id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
+                        {user.user_id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
                       </div>
                     </div>
                   </div>
