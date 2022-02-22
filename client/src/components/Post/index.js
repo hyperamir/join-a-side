@@ -16,32 +16,65 @@ export default function Post(props) {
   const [listQuestions, setListQuestions] = useState([]);
   const [listComments, setListComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [commentNameList, setcommentNameList] = useState(null);
   const params = useParams();
 
-  const fetchData = () => {
+  const fetchData = async () => {
     const getQuestion = axios.get(`http://localhost:3000/categories/${params.id}/questions/${params.question_id}`)
     const getComment = axios.get(`http://localhost:3000/comments/index`)
 
     let currentPath = getCurrentPath();
-
     axios.all([getQuestion, getComment])
       .then(
         axios.spread((...allData) => {
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
+         
+          console.log(getQuestionsComments)
 
           setCountVoteA(getAllQuestions.vote_a)
           setCountVoteB(getAllQuestions.vote_b)
           setListQuestions(getAllQuestions)
           setListComments(getQuestionsComments)
+
+          getCommentNames(getQuestionsComments)
+          .then((res) => {
+            setcommentNameList(res)
+           
+          });
         })
       )
+  }
+  
+  const getCommentNames = async  (commentNames) => {
+    const results = await Promise.all(commentNames.map(comments => {
+      const header = {
+        user_id: comments.user_id
+      }
+      return axios.get("http://localhost:3000/users/show", {params: header} )
+      .then((res) => {
+       
+        const name = {
+          first_name: res.data.first_name,
+          last_name: res.data.last_name 
+        };
+
+      return name
+
+      })
+    }))
+
+    console.log(results);
+    return results;
   }
 
   useEffect(() => {
     fetchData();
   }, [params.id]);
+  useEffect(()=>{
+
+  }, [commentNameList])
 
   //using useRef hook to disable vote button after clicked
   let btnA = useRef();
@@ -92,7 +125,6 @@ export default function Post(props) {
       question_id: question_id,
       user_id: user.id
     }
-    console.log(commentObject);
 
     axios.post("http://localhost:3000/comments", commentObject)
       .then((response) => {
@@ -200,7 +232,22 @@ export default function Post(props) {
 
           {/* Populate comments */}
           {
-            listComments.map(comments => {
+            listComments.map((comments, index) => {
+              console.log(commentNameList)
+              console.log("comments.id", index)
+              let user = null
+              if (commentNameList !== null) {
+                user = {
+                  first_name: commentNameList[index].first_name,
+                  last_name: commentNameList[index].last_name
+                }
+              }
+              else {
+                user = {
+                  first_name: "Not Found",
+                  last_name: "Not Found"
+                }
+              }
               return (
                 <div key={comments.id}>
                   <div className="flex justify-center items-center mb-8">
