@@ -71,7 +71,7 @@ export default function Post(props) {
 
   useEffect(() => {
     fetchData();
-  }, [params.id, listComments]);
+  }, [params.id]);
 
   useEffect(()=>{
     
@@ -132,6 +132,7 @@ export default function Post(props) {
         setListComments([...listComments, response.data])
         //clean the textarea after submitting the comment
         setNewComment("")
+        fetchData()
       })
   }
 
