@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom'
 
 export default function Navbar(props) {
+  const { user } = props
   const [categories, setCategories] = useState([]);
   const [navbar, setNavbar] = useState([false]);
 
@@ -84,31 +85,41 @@ export default function Navbar(props) {
             Profile
           </a> */}
         </div>
-
-        {/* Login && Register */}
-        {/* <div className="pr-4">
-          <Link to="/signup">
-            <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-neutral-800 hover:bg-white mt-4 lg:mt-0">Register</span>
-          </Link>
-        </div>
-        <div>
-          <Link to="/login">
-            <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-neutral-800 hover:bg-white mt-4 lg:mt-0">Login</span>
-          </Link>
-        </div> */}
         
         <Link to="/users" className="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">
           <FontAwesomeIcon icon={solid('plus')} /> Create
         </Link>
 
+        {/* Login */}
+        { user
+        ? ''
+        : <div>
+            <Link to="/login">
+              <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-neutral-800 hover:bg-white mt-4 lg:mt-0">Login</span>
+            </Link>
+            {/* <Link to="/signup">
+              <span href="#" className="inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-neutral-800 hover:bg-white mt-4 lg:mt-0">Register</span>
+            </Link> */}
+          </div>
+        }
+
+
         {/* Profile */}
         <div className="flex ml-3">
           <div className="mr-3">
-            <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
+            { user 
+            ? <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
+            : ''
+            } 
           </div>
           <div>
-            <h1 className="font-semibold text-white">Andy Park</h1>
-            <p className="text-xs text-white">Logout</p>
+            { user 
+            ? <div>
+                <h1 className="font-semibold text-white">{user.first_name} {user.last_name}</h1>
+                <a className="text-xs text-white">Logout</a>
+              </div> 
+            : ''
+            }
           </div>
         </div>
       </div>
