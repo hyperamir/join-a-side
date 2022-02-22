@@ -4,6 +4,7 @@ import axios from 'axios';
 import "./Vote.scss";
 import "./Question.scss";
 import "./index.scss"
+import Error from "./Error"
 import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
 import moment from 'moment'
 
@@ -16,6 +17,7 @@ export default function Post(props) {
   const [listComments, setListComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [commentNameList, setcommentNameList] = useState([]);
+  const [error, setError] = useState("");
   const params = useParams();
 
   const fetchData = async () => {
@@ -117,20 +119,34 @@ export default function Post(props) {
   }
 
   const postComment = () => {
-    const question_id = getCurrentPath();
-    const commentObject = {
-      comment: newComment,
-      question_id: question_id,
-      user_id: user.id
-    }
+    if (user === null) {
+      setError("You must be login in!");
 
-    axios.post("http://localhost:3000/comments", commentObject)
+    } else if (newComment.length > 80) {
+      setError("Max char limit is 80!");
+
+    } else if (newComment <= 0){
+      setError("Error comment cant be empty!");
+    } else {
+      setError("");
+        const question_id = getCurrentPath();
+        const commentObject = {
+        comment: newComment,
+        question_id: question_id,
+        user_id: user.id
+      }
+
+    
+
+      axios.post("http://localhost:3000/comments", commentObject)
       .then((response) => {
         setListComments([...listComments, response.data])
         //clean the textarea after submitting the comment
-        setNewComment("")
-        fetchData()
+        setNewComment("");
+        fetchData();
       })
+    }
+    
   }
 
   const deleteComment = (commentId) => {
@@ -222,7 +238,10 @@ export default function Post(props) {
           </div>
 
           <div className="mt-3 p-3 w-full">
-            <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>
+            {error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 border-red-500 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+            {!error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+             {/* <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea> */}
+              {<Error error={error} />}
           </div>
 
           <div className="flex justify-end p-4 mx-3">
