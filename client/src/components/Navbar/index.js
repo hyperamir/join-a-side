@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 export default function Navbar(props) {
   const { user } = props
   const [categories, setCategories] = useState([]);
-  const [navbar, setNavbar] = useState([false]);
+  const [navbar, setNavbar] = useState(false);
   const [navOpen, setNavOpen] = useState(false)
 
   const controlNavbar = () => {
