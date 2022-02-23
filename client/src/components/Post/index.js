@@ -40,7 +40,7 @@ export default function Post(props) {
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
-
+          console.log('getallquestions:', getAllQuestions)
           setCountVoteA(getAllQuestions.vote_a)
           setCountVoteB(getAllQuestions.vote_b)
           setListQuestions(getAllQuestions)
@@ -197,6 +197,7 @@ export default function Post(props) {
   }
 
 
+  let local = moment(new Date(listQuestions.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
   return (
     <div className="question-banner">
       {/* Question */}
@@ -220,9 +221,9 @@ export default function Post(props) {
         {/* User && Date */}
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center">
-            <a className="text-gray text-sm mx-3" href="#">User</a>
+            <a className="text-gray text-sm mx-3" href="#">By: {listQuestions.first_name} {listQuestions.last_name}</a>
           </div>
-          <span className="font-light text-sm text-gray-600">3 days ago</span>
+          <span className="font-light text-sm text-gray-600">{local}</span>
         </div>
       </div>
 

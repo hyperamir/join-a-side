@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getVotePercent } from '../helpers/helper';
 import axios from 'axios';
 import "./QuestionList.scss";
+import moment from 'moment';
 
 import "./Vote.scss";
 import "./Question.scss";
@@ -15,18 +16,19 @@ export default function QuestionList(props) {
   useEffect(() => {
     axios.get(`http://localhost:3000/categories/${params.id}/questions`)
       .then((response) => {
-        //console.log('response from backend:', response.data)
+        console.log('response from backend:', response.data)
         setCategory(response.data);
       })
       .catch(() => {
         console.log('Cannot find your category');
       });
-  }, [params.id]); 
+  }, [params.id]);
 
   return (
     <div className="list-banner bg-cover bg-center">
       {
         category.map(question => {
+          let localTime = moment(new Date(question.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
           return (
             <Link key={question.id} to={`/categories/${question.category_id}/${question.id}`}>
               {/* Question */}
@@ -39,19 +41,19 @@ export default function QuestionList(props) {
                 </div>
                 <div className="flex justify-between items-center mt-4">
                   <div className="flex items-center">
-                    <p className="text-gray-700 text-sm mx-3">User {question.user_id}</p>
+                    <p className="text-gray-700 text-sm mx-3">By: {question.first_name} {question.last_name}</p>
                   </div>
-                  <span className="font-light text-sm text-gray-600">Date</span>
+                  <span className="font-light text-sm text-gray-600">{localTime}</span>
                 </div>
               </div>
 
               {/* Vote */}
               <div className="flex items-center justify-center p-4">
                 <div className="bg-white shadow-xl border p-8 w-3/6">
-     
+
                   {/* Status Bar */}
                   <div className="bar-container">
-                    <div className="votes bar" style={{width: getVotePercent(question.vote_a, question.vote_b) }}></div>
+                    <div className="votes bar" style={{ width: getVotePercent(question.vote_a, question.vote_b) }}></div>
                   </div>
 
                   {/* Votes */}

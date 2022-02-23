@@ -52,7 +52,7 @@ Question.create(category_id: 1, user_id: 1, title: 'Do you guys like Call of Dut
 Question.create(category_id: 1, user_id: 6, title: 'Should I go for XBOX or PS5?', answer_a: 'Xbox', answer_b: 'PS5')
 Question.create(category_id: 2, user_id: 5, title: 'Best soccer player?', answer_a: 'Ronaldo', answer_b: 'Messi')
 Question.create(category_id: 2, user_id: 1, title: 'Which one you are into?', answer_a: 'Soccer', answer_b: 'Baseball')
-Question.create(category_id: 2, user_id: 3, title: 'Which sport shoul I learn?', answer_a: 'Mountain biking', answer_b: 'Ice-skating')
+Question.create(category_id: 2, user_id: 3, title: 'Which sport should I learn?', answer_a: 'Mountain biking', answer_b: 'Ice-skating')
 Question.create(category_id: 3, user_id: 2, title: 'Are you a fan of movies or series?', answer_a: 'Movies', answer_b: 'Series')
 Question.create(category_id: 3, user_id: 3, title: 'Should I watch Games Of Thrones or Beaking Bad?', answer_a: 'Games Of Thrones', answer_b: 'Breaking Bad')
 Question.create(category_id: 4, user_id: 4, title: 'Should all people have the right to own guns?', answer_a: 'Yes', answer_b: 'No')
