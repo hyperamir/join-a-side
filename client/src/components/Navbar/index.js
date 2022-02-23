@@ -123,7 +123,7 @@ export default function Navbar(props) {
               { user 
               ? <div>
                   <h1 className="font-semibold text-white">{user.first_name} {user.last_name}</h1>
-                  <a className="text-xs text-white">Logout</a>
+                  <a onClick={props.setUser(null)} className="text-xs text-white">Logout</a>
                 </div> 
               : ''
               }
