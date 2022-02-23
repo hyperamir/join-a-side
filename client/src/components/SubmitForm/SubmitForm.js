@@ -85,7 +85,6 @@ export default function SubmitForm(props) {
     }
 
     // category field
-    console.log(category.id)
     if (category.id <= 0) {
       errors[3] = "Please Select a option field.";
     }
@@ -111,7 +110,6 @@ export default function SubmitForm(props) {
         category_id: category.id,
         user_id:  props.user.id
       }
-      console.log("post this",questionObject);
       axios.post("questions/create", questionObject)
       .then((response)=>{
         setShowModal(true)
@@ -157,7 +155,7 @@ export default function SubmitForm(props) {
             <form className="w-full max-w-lg">
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
-                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
                     Question to Submit
                     {props.user === null &&<Error error={"User must be logged in to post a question"}/>}
                   </label>
@@ -170,7 +168,7 @@ export default function SubmitForm(props) {
               </div>
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
                     Answer Option 1
                   </label>
                   { errorList[1] && <input value={option1} onChange={(event) => {setOption1(event.target.value)}} className='border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id="grid-answer-1" type="text" placeholder="ex. apple" />}
@@ -179,7 +177,7 @@ export default function SubmitForm(props) {
                   {errorComponents[1]}
                 </div>
                 <div className="w-full md:w-1/2 px-3">
-                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
                     Answer Option 2
                   </label>
                   { errorList[2] && <input value={option2} onChange={(event) => {setOption2(event.target.value)}} className=" border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-answer-2" type="text" placeholder="ex. banana" />}
@@ -189,7 +187,7 @@ export default function SubmitForm(props) {
               </div>
               <div className="flex flex-wrap -mx-3 mb-2">
                 <div className="w-full md:w-1/1 px-3 mb-6 md:mb-0">
-                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
                     Category
                   </label>
                   <div className="relative">
