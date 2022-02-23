@@ -160,7 +160,7 @@ export default function SubmitForm(props) {
                 <div className="w-full px-3">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Question to Submit
-                    {props.user === null &&<Error error={"User must be login to post a question"}/>}
+                    {props.user === null &&<Error error={"User must be logged in to post a question"}/>}
                   </label>
                   
                   { errorList[0] && <input value={question} onChange={(event) => {setQuestion(event.target.value)}} className=" border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />}

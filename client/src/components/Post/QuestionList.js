@@ -48,7 +48,7 @@ export default function QuestionList(props) {
               </div>
 
               {/* Vote */}
-              <div className="flex items-center justify-center p-4">
+              <div className="flex items-center justify-center pb-12">
                 <div className="bg-white shadow-xl border p-8 w-3/6">
 
                   {/* Status Bar */}
