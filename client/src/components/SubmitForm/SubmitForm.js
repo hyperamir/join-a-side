@@ -18,7 +18,6 @@ export default function SubmitForm(props) {
 
   useEffect(() => {
     getAllCategorys();
-    console.log(categoriesList)
   }, []); 
 
   const handleID = (event) => {
@@ -37,7 +36,6 @@ export default function SubmitForm(props) {
       name: name,
       id: id
        }));
-   console.log(category)
   }
 
   const getAllCategorys = () => {
@@ -116,7 +114,8 @@ export default function SubmitForm(props) {
       console.log("post this",questionObject);
       axios.post("questions/create", questionObject)
       .then((response)=>{
-        console.log('create response:', response)
+        setShowModal(true)
+        reset()
       })
       .catch(error => {
         console.log(error);
@@ -217,7 +216,7 @@ export default function SubmitForm(props) {
               </div>
 
               {/* Buttons */}
-              <button onClick={() => {submit(); setShowModal(true)}} type="submit" className="flex-shrink-0 bg-indigo-500 hover:bg-indigo-700 border-indigo-500 hover:border-indigo-700 text-sm border-4 text-white py-1 px-2 mt-6 rounded" type="button">
+              <button onClick={() => {submit();}} type="submit" className="flex-shrink-0 bg-indigo-500 hover:bg-indigo-700 border-indigo-500 hover:border-indigo-700 text-sm border-4 text-white py-1 px-2 mt-6 rounded" type="button">
                 Submit
               </button>
               <button onClick={reset} className="flex-shrink-0 border-transparent border-4 text-indigo-500 hover:text-indigo-800 text-sm py-1 px-2 rounded" type="button">
