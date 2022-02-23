@@ -66,13 +66,19 @@ export default function Post(props) {
 
       return axios.get("http://localhost:3000/users/show", { params: header })
         .then((res) => {
-
-          const name = {
-            first_name: res.data.first_name,
-            last_name: res.data.last_name,
-            user_id: user.id
-          };
-
+          let name = {};
+          if (user !== null) {
+            name = {
+              first_name: res.data.first_name,
+              last_name: res.data.last_name,
+              user_id: user.id
+            };
+          } else {
+            name = {
+              first_name: res.data.first_name,
+              last_name: res.data.last_name,
+            };
+          }
           return name
 
         })
@@ -254,9 +260,9 @@ export default function Post(props) {
 
           <div className="flex ml-3">
             <div className="mr-3">
-              { user 
-              ? <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
-              : ''
+              {user
+                ? <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
+                : ''
               }
             </div>
 
@@ -331,7 +337,7 @@ export default function Post(props) {
                         <p>{localTime}</p>
                       </div>
                       <div>
-                        {user.user_id === comments.user_id && <button onClick={() => setShowModal(true)}>Delete</button>}
+                        {user.user_id === comments.user_id && <button onClick={() => { console.log('comments.id:', comments); setShowModal(true) }}>Delete</button>}
                       </div>
 
                       {/* Show modal on Submit */}
