@@ -7,6 +7,8 @@ import "./index.scss"
 import Error from "./Error"
 import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
 import moment from 'moment'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 export default function Post(props) {
   const { user } = props
@@ -18,6 +20,7 @@ export default function Post(props) {
   const [newComment, setNewComment] = useState("");
   const [commentNameList, setcommentNameList] = useState([]);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const params = useParams();
 
   const fetchData = async () => {
@@ -31,39 +34,39 @@ export default function Post(props) {
           const getAllQuestions = allData[0].data
           const getAllComments = allData[1].data
           const getQuestionsComments = getAllComments.filter(x => x.question_id === currentPath)
-          console.log('getallquestions:', getAllQuestions)
+
           setCountVoteA(getAllQuestions.vote_a)
           setCountVoteB(getAllQuestions.vote_b)
           setListQuestions(getAllQuestions)
           setListComments(getQuestionsComments)
 
           getCommentNames(getQuestionsComments)
-          .then((res) => {
-            setcommentNameList(res)
-           
-          });
+            .then((res) => {
+              setcommentNameList(res)
+
+            });
         })
       )
   }
-  
-  const getCommentNames = async  (commentNames) => {
+
+  const getCommentNames = async (commentNames) => {
     const results = await Promise.all(commentNames.map(comments => {
       const header = {
         user_id: comments.user_id
       }
-      
-      return axios.get("http://localhost:3000/users/show", {params: header} )
-      .then((res) => {
-       
-        const name = {
-          first_name: res.data.first_name,
-          last_name: res.data.last_name,
-          user_id: user.id
-        };
 
-      return name
+      return axios.get("http://localhost:3000/users/show", { params: header })
+        .then((res) => {
 
-      })
+          const name = {
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
+            user_id: user.id
+          };
+
+          return name
+
+        })
     }))
 
     return results;
@@ -73,8 +76,8 @@ export default function Post(props) {
     fetchData();
   }, [params.id]);
 
-  useEffect(()=>{
-    
+  useEffect(() => {
+
   }, [commentNameList])
 
   //using useRef hook to disable vote button after clicked
@@ -125,28 +128,28 @@ export default function Post(props) {
     } else if (newComment.length > 80) {
       setError("Max char limit is 80!");
 
-    } else if (newComment <= 0){
+    } else if (newComment <= 0) {
       setError("Error comment cant be empty!");
     } else {
       setError("");
-        const question_id = getCurrentPath();
-        const commentObject = {
+      const question_id = getCurrentPath();
+      const commentObject = {
         comment: newComment,
         question_id: question_id,
         user_id: user.id
       }
 
-    
+
 
       axios.post("http://localhost:3000/comments", commentObject)
-      .then((response) => {
-        setListComments([...listComments, response.data])
-        //clean the textarea after submitting the comment
-        setNewComment("");
-        fetchData();
-      })
+        .then((response) => {
+          setListComments([...listComments, response.data])
+          //clean the textarea after submitting the comment
+          setNewComment("");
+          fetchData();
+        })
     }
-    
+
   }
 
   const deleteComment = (commentId) => {
@@ -157,13 +160,14 @@ export default function Post(props) {
       user_id: user.id
     }
 
-    if (window.confirm("Are you sure you want to remove comment?")) {
+    if (showModal) {
       axios.delete(`http://localhost:3000/comments/${commentId}`, commentObject)
         .then((response) => {
           let newList = [...listComments];
           const newerList = newList.filter((comment) => comment.id !== commentId)
           setListComments(newerList)
           fetchData()
+          setShowModal(false)
         })
     }
   }
@@ -223,14 +227,14 @@ export default function Post(props) {
             <div className="mr-3">
               <img src="http://picsum.photos/id/10/40/40" alt="" className="rounded-full" />
             </div>
-            
+
             <div>
-              { user 
-              ? <div>
+              {user
+                ? <div>
                   <h1 className="font-semibold">{user.first_name} {user.last_name}</h1>
                   <p className="text-xs text-gray">10 minutes ago</p>
-                </div> 
-              : <div>
+                </div>
+                : <div>
                   <h1 className="font-semibold">Please Login!</h1>
                   <a className="text-xs text-gray">Join the conversation</a>
                 </div>
@@ -241,8 +245,8 @@ export default function Post(props) {
           <div className="mt-3 p-3 w-full">
             {error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 border-red-500 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
             {!error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
-             {/* <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea> */}
-              {<Error error={error} />}
+            {/* <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea> */}
+            {<Error error={error} />}
           </div>
 
           <div className="flex justify-end p-4 mx-3">
@@ -259,7 +263,7 @@ export default function Post(props) {
           <h1 className="p-4"><b>Comments</b></h1>
 
           {/* Populate comments */}
-          {             
+          {
             listComments.map((comments, index) => {
               let localTime = moment(new Date(comments.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
 
@@ -291,12 +295,69 @@ export default function Post(props) {
                         <a href="" className="text-black-600 mr-2">{comments.comment}</a>
                       </div>
                       <div>
-                        <a href="" className="text-gray-400">Created at</a>
+                        <a href="" className="text-gray-400">Posted at</a>
                         <p>{localTime}</p>
                       </div>
                       <div>
-                        {user.user_id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
+                        {user.user_id === comments.user_id && <button onClick={() => setShowModal(true)}>Delete</button>}
                       </div>
+
+                      {/* Show modal on Submit */}
+                      {showModal ? (
+                        <>
+                          <div
+                            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                          >
+                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                              {/*content*/}
+                              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                {/*header*/}
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                  <h3 className="text-3xl font-semibold text-indigo-700">
+                                    Are you sure you want to delete  <FontAwesomeIcon icon={solid('circle-check')} />
+                                  </h3>
+                                  <button
+                                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                    onClick={() => setShowModal(false)}
+                                  >
+                                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                      x
+                                    </span>
+                                  </button>
+                                </div>
+                                {/*body*/}
+                                <div className="relative p-6 flex-auto">
+                                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                    You are about to delete your post!
+                                  </p>
+                                </div>
+                                {/*footer*/}
+                                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                      
+                                <button
+                                    className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    type="button"
+                                    onClick={() => { setShowModal(false) }}
+                                  >
+                                    Cancel
+                                  </button>
+
+                                  <button
+                                    className="bg-indigo-500 text-yellow active:bg-indigo-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    type="button"
+                                    onClick={() => { deleteComment(comments.id); setShowModal(false) }}
+                                  >
+                                    Delete
+                                  </button>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                        </>
+                      ) : null}
+
                     </div>
                   </div>
                 </div>
@@ -304,6 +365,7 @@ export default function Post(props) {
             })
           }
         </div>
+
       </div>
     </div>
   );
