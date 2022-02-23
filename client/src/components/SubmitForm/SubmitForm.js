@@ -55,16 +55,12 @@ export default function SubmitForm(props) {
     setQuestion("");
     setOption1("");
     setOption2("");
-    setUser("");
     setCategory({name: "", id: 0});
-    SetErrorList(["","","","",""]);
-    
-
+    SetErrorList(["","","","",""]);   
   }
 
   const submit = () => {
     const errors = ["","","","",""];
-    //console.log(question);
     // question field 
     if (question.length <= 0 ) {
       errors[0] = "Please fill out this field.";
@@ -74,7 +70,6 @@ export default function SubmitForm(props) {
     }
 
     // option 1 field
-    //console.log(option1);
     if (option1.length <= 0 ) {
       errors[1] = "Please fill out this field.";
     }
@@ -91,20 +86,15 @@ export default function SubmitForm(props) {
       errors[2] = "Char limit 80.";
     }
 
-    //console.log(user);
-    // user field
-
-    const userId = parseInt(user)
-    console.log(userId)
-    if (isNaN(userId)) {
-      errors[3] = "Must be a number";
-    }
-
-    //console.log(category);
     // category field
     console.log(category.id)
     if (category.id <= 0) {
-      errors[4] = "Please Select a option field.";
+      errors[3] = "Please Select a option field.";
+    }
+
+    if (props.user === null) {
+      // this error is for logic only wont show up for user
+      errors[4] = "user not login in";
     }
 
     SetErrorList(errors);
@@ -121,7 +111,7 @@ export default function SubmitForm(props) {
         answer_a: option1,
         answer_b: option2,
         category_id: category.id,
-        user_id:  parseInt(user)
+        user_id:  props.user.id
       }
       console.log("post this",questionObject);
       axios.post("questions/create", questionObject)
@@ -170,7 +160,9 @@ export default function SubmitForm(props) {
                 <div className="w-full px-3">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                     Question to Submit
+                    {props.user === null &&<Error error={"User must be login to post a question"}/>}
                   </label>
+                  
                   { errorList[0] && <input value={question} onChange={(event) => {setQuestion(event.target.value)}} className=" border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />}
                   { !errorList[0] && <input value={question} onChange={(event) => {setQuestion(event.target.value)}} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-question" type="text" placeholder="ex. apples or bananas?" />}
                   <p className="text-gray-600 text-xs italic">Maximum 80 Characters</p>
@@ -197,39 +189,31 @@ export default function SubmitForm(props) {
                 </div>
               </div>
               <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-                    Username
-                  </label>
-                  { errorList[3] && <input value={user} onChange={(event) => {setUser(event.target.value)}} className="border-red-500 appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-username" type="text" placeholder="ex. sam1234" />}
-                  { !errorList[3] && <input value={user} onChange={(event) => {setUser(event.target.value)}} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-username" type="text" placeholder="ex. sam1234" />}
-                  {errorComponents[3]}
-                </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div className="w-full md:w-1/1 px-3 mb-6 md:mb-0">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                     Category
                   </label>
                   <div className="relative">
-                    { errorList[4] && <select value={category.name} onChange={(event) => {handleID(event)}} className=" border-red-500 block appearance-none w-full bg-gray-200 border  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                    { errorList[3] && <select value={category.name} onChange={(event) => {handleID(event)}} className=" border-red-500 block appearance-none w-full bg-gray-200 border  text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
                       <Category value={""} id={0}/>
                       {categorysComponents}
                     </select>} 
-                    { !errorList[4] && <select value={category.name} onChange={(event) => {handleID(event)}} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
+                    { !errorList[3] && <select value={category.name} onChange={(event) => {handleID(event)}} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category">
                       <Category value={""} id={0}/>
                       {categorysComponents}
                     </select>}
-                    {errorComponents[4]}
+                    {errorComponents[3]}
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                       <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                     </div>
                   </div>
                 </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                {/* <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                     Open for
                   </label>
                   <input disabled={"true"} className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-session-date" type="text" placeholder="ex. 7 days" />
-                </div>
+                </div> */}
               </div>
 
               {/* Buttons */}
