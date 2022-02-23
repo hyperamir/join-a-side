@@ -10,14 +10,23 @@ import moment from 'moment'
 
 export default function Post(props) {
   const { user } = props
-
+  // keeps track of votes
   const [countVoteA, setCountVoteA] = useState(0)
   const [countVoteB, setCountVoteB] = useState(0)
+  // keeps a list of questions from the dataBase
   const [listQuestions, setListQuestions] = useState([]);
+   // keeps a list of comments from the dataBase
   const [listComments, setListComments] = useState([]);
+   // keeps a list of names belonging to comments
+   const [commentNameList, setcommentNameList] = useState([]);
+  // keeps track of what the user is typeing
   const [newComment, setNewComment] = useState("");
-  const [commentNameList, setcommentNameList] = useState([]);
-  const [error, setError] = useState("");
+ // errror handling for comment submission
+  const [commentError, setCommentError] = useState("");
+   // errror handling for comment submission
+   const [voteError, setVoteError] = useState("");
+ // keeps track if the user has voted on this page
+  const [voted, setVoted] = useState(false);
   const params = useParams();
 
   const fetchData = async () => {
@@ -82,53 +91,72 @@ export default function Post(props) {
   let btnB = useRef();
 
   const handleVoteA = () => {
-    setCountVoteA(countVoteA + 1)
-    //check if button clicked
-    if (btnA.current) {
-      btnA.current.setAttribute("disabled", "disabled");
-    }
-    let VoteABobj = {
-      vote_a: countVoteA + 1,
-      vote_b: countVoteB,
-      question_id: Number(params.question_id)
-    };
+    if (voted) {
+      setVoteError("You Already Voted!")
+    }else if (user === null){
+      setVoteError("You must be login in!");
+    } else {
 
-    axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
-      .catch(error => {
-        console.log(('put error: '), error);
-      })
+      setCountVoteA(countVoteA + 1)
+      //check if button clicked
+      // if (btnA.current) {
+      //   btnA.current.setAttribute("disabled", "disabled");
+      //   btnB.current.setAttribute("disabled", "disabled");
+      // }
+      let VoteABobj = {
+        vote_a: countVoteA + 1,
+        vote_b: countVoteB,
+        question_id: Number(params.question_id)
+      };
+  
+      axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
+        .catch(error => {
+          console.log(('put error: '), error);
+        })
+      setVoted(true);
+      setVoteError("")
+    }
+   
   }
 
   const handleVoteB = () => {
-    setCountVoteB(countVoteB + 1)
+    if (voted) {
+      setVoteError("You Already Voted!")
+    } else if (user === null){
+      setVoteError("You must be login in!");
+    } else {
+      setCountVoteB(countVoteB + 1)
 
-    if (btnB.current) {
-      btnB.current.setAttribute("disabled", "disabled");
+      // if (btnB.current) {
+      //   btnB.current.setAttribute("disabled", "disabled");
+      // }
+
+      let VoteABobj = {
+        vote_a: countVoteA,
+        vote_b: countVoteB + 1,
+        question_id: Number(params.question_id)
+      };
+
+      axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
+        .catch(error => {
+          console.log(('put error: '), error);
+        })
+      setVoted(true);
+      setVoteError("")
     }
-
-    let VoteABobj = {
-      vote_a: countVoteA,
-      vote_b: countVoteB + 1,
-      question_id: Number(params.question_id)
-    };
-
-    axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
-      .catch(error => {
-        console.log(('put error: '), error);
-      })
   }
 
   const postComment = () => {
     if (user === null) {
-      setError("You must be login in!");
+      setCommentError("You must be login in!");
 
     } else if (newComment.length > 80) {
-      setError("Max char limit is 80!");
+      setCommentError("Max char limit is 80!");
 
     } else if (newComment <= 0){
-      setError("Error comment cant be empty!");
+      setCommentError("Error comment cant be empty!");
     } else {
-      setError("");
+      setCommentError("");
         const question_id = getCurrentPath();
         const commentObject = {
         comment: newComment,
@@ -189,6 +217,7 @@ export default function Post(props) {
             {listQuestions.answer_b}
           </button>
         </div>
+        {<Error error={voteError}/>}
         {/* User && Date */}
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center">
@@ -239,10 +268,10 @@ export default function Post(props) {
           </div>
 
           <div className="mt-3 p-3 w-full">
-            {error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 border-red-500 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
-            {!error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+            {commentError && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 border-red-500 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+            {!commentError && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
              {/* <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea> */}
-              {<Error error={error} />}
+              {<Error error={commentError} />}
           </div>
 
           <div className="flex justify-end p-4 mx-3">
