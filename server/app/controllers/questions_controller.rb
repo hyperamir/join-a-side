@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
     questionsWithVotes = []
     category.questions.each do |question|
       vote = question.vote
+      user = question.user
+ 
       q = {
         id: question.id,
         title: question.title,
@@ -12,8 +14,11 @@ class QuestionsController < ApplicationController
         answer_b: question.answer_b,
         category_id: question.category_id,
         user_id: question.user_id,
+        created_at: question.created_at,
         vote_a: vote.vote_a,
-        vote_b: vote.vote_b
+        vote_b: vote.vote_b,
+        first_name: user.first_name,
+        last_name: user.last_name
       }
       questionsWithVotes = questionsWithVotes + [q]
     end
@@ -24,7 +29,7 @@ class QuestionsController < ApplicationController
   def show
     question = Question.find params[:id]
     votes = question.vote
-    
+    user = question.user
     q = {
       id: question.id,
       title: question.title,
@@ -32,8 +37,11 @@ class QuestionsController < ApplicationController
       answer_b: question.answer_b,
       category_id: question.category_id,
       user_id: question.user_id,
+      created_at: question.created_at,
       vote_a: votes.vote_a,
-      vote_b: votes.vote_b
+      vote_b: votes.vote_b,
+      first_name: user.first_name,
+      last_name: user.last_name
     }
 
     render json: q  end

@@ -7,17 +7,29 @@ import "./index.scss"
 import Error from "./Error"
 import { getCurrentPath, getVotePercent, getRandomPhotoURL } from '../helpers/helper';
 import moment from 'moment'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 export default function Post(props) {
   const { user } = props
-
+  // keeps track of votes
   const [countVoteA, setCountVoteA] = useState(0)
   const [countVoteB, setCountVoteB] = useState(0)
+  // keeps a list of questions from the dataBase
   const [listQuestions, setListQuestions] = useState([]);
+  // keeps a list of comments from the dataBase
   const [listComments, setListComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
+  // keeps a list of names belonging to comments
   const [commentNameList, setcommentNameList] = useState([]);
-  const [error, setError] = useState("");
+  // keeps track of what the user is typeing
+  const [newComment, setNewComment] = useState("");
+  // errror handling for comment submission
+  const [commentError, setCommentError] = useState("");
+  // errror handling for comment submission
+  const [voteError, setVoteError] = useState("");
+  // keeps track if the user has voted on this page
+  const [voted, setVoted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const params = useParams();
 
   const fetchData = async () => {
@@ -38,32 +50,32 @@ export default function Post(props) {
           setListComments(getQuestionsComments)
 
           getCommentNames(getQuestionsComments)
-          .then((res) => {
-            setcommentNameList(res)
-           
-          });
+            .then((res) => {
+              setcommentNameList(res)
+
+            });
         })
       )
   }
-  
-  const getCommentNames = async  (commentNames) => {
+
+  const getCommentNames = async (commentNames) => {
     const results = await Promise.all(commentNames.map(comments => {
       const header = {
         user_id: comments.user_id
       }
-      
-      return axios.get("http://localhost:3000/users/show", {params: header} )
-      .then((res) => {
-       
-        const name = {
-          first_name: res.data.first_name,
-          last_name: res.data.last_name,
-          user_id: user.id
-        };
 
-      return name
+      return axios.get("http://localhost:3000/users/show", { params: header })
+        .then((res) => {
 
-      })
+          const name = {
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
+            user_id: user.id
+          };
+
+          return name
+
+        })
     }))
 
     return results;
@@ -73,8 +85,8 @@ export default function Post(props) {
     fetchData();
   }, [params.id]);
 
-  useEffect(()=>{
-    
+  useEffect(() => {
+
   }, [commentNameList])
 
   //using useRef hook to disable vote button after clicked
@@ -82,71 +94,90 @@ export default function Post(props) {
   let btnB = useRef();
 
   const handleVoteA = () => {
-    setCountVoteA(countVoteA + 1)
-    //check if button clicked
-    if (btnA.current) {
-      btnA.current.setAttribute("disabled", "disabled");
-    }
-    let VoteABobj = {
-      vote_a: countVoteA + 1,
-      vote_b: countVoteB,
-      question_id: Number(params.question_id)
-    };
+    if (voted) {
+      setVoteError("You Already Voted!")
+    } else if (user === null) {
+      setVoteError("You must be login in!");
+    } else {
 
-    axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
-      .catch(error => {
-        console.log(('put error: '), error);
-      })
+      setCountVoteA(countVoteA + 1)
+      //check if button clicked
+      // if (btnA.current) {
+      //   btnA.current.setAttribute("disabled", "disabled");
+      //   btnB.current.setAttribute("disabled", "disabled");
+      // }
+      let VoteABobj = {
+        vote_a: countVoteA + 1,
+        vote_b: countVoteB,
+        question_id: Number(params.question_id)
+      };
+
+      axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
+        .catch(error => {
+          console.log(('put error: '), error);
+        })
+      setVoted(true);
+      setVoteError("")
+    }
+
   }
 
   const handleVoteB = () => {
-    setCountVoteB(countVoteB + 1)
+    if (voted) {
+      setVoteError("You Already Voted!")
+    } else if (user === null) {
+      setVoteError("You must be login in!");
+    } else {
+      setCountVoteB(countVoteB + 1)
 
-    if (btnB.current) {
-      btnB.current.setAttribute("disabled", "disabled");
+      // if (btnB.current) {
+      //   btnB.current.setAttribute("disabled", "disabled");
+      // }
+
+      let VoteABobj = {
+        vote_a: countVoteA,
+        vote_b: countVoteB + 1,
+        question_id: Number(params.question_id)
+      };
+
+      axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
+        .catch(error => {
+          console.log(('put error: '), error);
+        })
+      setVoted(true);
+      setVoteError("")
     }
-
-    let VoteABobj = {
-      vote_a: countVoteA,
-      vote_b: countVoteB + 1,
-      question_id: Number(params.question_id)
-    };
-
-    axios.put(`http://localhost:3000/votes/${params.question_id}`, VoteABobj)
-      .catch(error => {
-        console.log(('put error: '), error);
-      })
   }
 
   const postComment = () => {
     if (user === null) {
-      setError("You must be login in!");
+      setCommentError("You must be login in!");
 
     } else if (newComment.length > 80) {
-      setError("Max char limit is 80!");
+      setCommentError("Max char limit is 80!");
 
-    } else if (newComment <= 0){
-      setError("Error comment cant be empty!");
+    } else if (newComment <= 0) {
+      setCommentError("Error comment cant be empty!");
     } else {
-      setError("");
-        const question_id = getCurrentPath();
-        const commentObject = {
+      setCommentError("");
+      const question_id = getCurrentPath();
+      const commentObject = {
         comment: newComment,
         question_id: question_id,
         user_id: user.id
       }
 
-    
+
 
       axios.post("http://localhost:3000/comments", commentObject)
-      .then((response) => {
-        setListComments([...listComments, response.data])
-        //clean the textarea after submitting the comment
-        setNewComment("");
-        fetchData();
-      })
+        .then((response) => {
+          setListComments([...listComments, response.data])
+          //clean the textarea after submitting the comment
+          setNewComment("");
+          fetchData();
+        })
     }
-    
+
   }
 
   const deleteComment = (commentId) => {
@@ -157,18 +188,20 @@ export default function Post(props) {
       user_id: user.id
     }
 
-    if (window.confirm("Are you sure you want to remove comment?")) {
+    if (showModal) {
       axios.delete(`http://localhost:3000/comments/${commentId}`, commentObject)
         .then((response) => {
           let newList = [...listComments];
           const newerList = newList.filter((comment) => comment.id !== commentId)
           setListComments(newerList)
           fetchData()
+          setShowModal(false)
         })
     }
   }
 
 
+  let local = moment(new Date(listQuestions.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
   return (
     <div className="question-banner">
       {/* Question */}
@@ -188,12 +221,13 @@ export default function Post(props) {
             {listQuestions.answer_b}
           </button>
         </div>
+        {<Error error={voteError} />}
         {/* User && Date */}
         <div className="flex justify-between items-center mt-4">
           <div className="flex items-center">
-            <a className="text-gray text-sm mx-3" href="#">User</a>
+            <a className="text-gray text-sm mx-3" href="#">By: {listQuestions.first_name} {listQuestions.last_name}</a>
           </div>
-          <span className="font-light text-sm text-gray-600">3 days ago</span>
+          <span className="font-light text-sm text-gray-600">{local}</span>
         </div>
       </div>
 
@@ -225,14 +259,14 @@ export default function Post(props) {
               : ''
               }
             </div>
-            
+
             <div>
-              { user 
-              ? <div>
+              {user
+                ? <div>
                   <h1 className="font-semibold">{user.first_name} {user.last_name}</h1>
                   <p className="text-xs text-gray">10 minutes ago</p>
-                </div> 
-              : <div>
+                </div>
+                : <div>
                   <h1 className="font-semibold">Please Login!</h1>
                   <a className="text-xs text-gray">Join the conversation</a>
                 </div>
@@ -241,10 +275,10 @@ export default function Post(props) {
           </div>
 
           <div className="mt-3 p-3 w-full">
-            {error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 border-red-500 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
-            {!error && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
-             {/* <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea> */}
-              {<Error error={error} />}
+            {commentError && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 border-red-500 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+            {!commentError && <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea>}
+            {/* <textarea onChange={(event) => { setNewComment(event.target.value) }} rows="3" className="border p-2 rounded w-full" placeholder="Write a comment..." value={newComment} ></textarea> */}
+            {<Error error={commentError} />}
           </div>
 
           <div className="flex justify-end p-4 mx-3">
@@ -261,7 +295,7 @@ export default function Post(props) {
           <h1 className="p-4"><b>Comments</b></h1>
 
           {/* Populate comments */}
-          {             
+          {
             listComments.map((comments, index) => {
               let localTime = moment(new Date(comments.created_at)).utc().utcOffset("-10:00").format("YYYY-MM-DD HH:mm");
 
@@ -293,12 +327,69 @@ export default function Post(props) {
                         <a href="" className="text-black-600 mr-2">{comments.comment}</a>
                       </div>
                       <div>
-                        <a href="" className="text-gray-400">Created at</a>
+                        <a href="" className="text-gray-400">Posted at</a>
                         <p>{localTime}</p>
                       </div>
                       <div>
-                        {user.user_id === comments.user_id && <button onClick={() => deleteComment(comments.id)}>Delete</button>}
+                        {user.user_id === comments.user_id && <button onClick={() => setShowModal(true)}>Delete</button>}
                       </div>
+
+                      {/* Show modal on Submit */}
+                      {showModal ? (
+                        <>
+                          <div
+                            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                          >
+                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                              {/*content*/}
+                              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                {/*header*/}
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                  <h3 className="text-3xl font-semibold text-indigo-700">
+                                    Are you sure you want to delete  <FontAwesomeIcon icon={solid('circle-check')} />
+                                  </h3>
+                                  <button
+                                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                    onClick={() => setShowModal(false)}
+                                  >
+                                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                      x
+                                    </span>
+                                  </button>
+                                </div>
+                                {/*body*/}
+                                <div className="relative p-6 flex-auto">
+                                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                    You are about to delete your post!
+                                  </p>
+                                </div>
+                                {/*footer*/}
+                                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+
+                                  <button
+                                    className="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    type="button"
+                                    onClick={() => { setShowModal(false) }}
+                                  >
+                                    Cancel
+                                  </button>
+
+                                  <button
+                                    className="bg-indigo-500 text-yellow active:bg-indigo-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    type="button"
+                                    onClick={() => { deleteComment(comments.id); setShowModal(false) }}
+                                  >
+                                    Delete
+                                  </button>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                        </>
+                      ) : null}
+
                     </div>
                   </div>
                 </div>
@@ -306,6 +397,7 @@ export default function Post(props) {
             })
           }
         </div>
+
       </div>
     </div>
   );
