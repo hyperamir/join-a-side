@@ -31,7 +31,7 @@ function App() {
     <Router>
       <div className="App">
         {/* Add components here which will be rendered in all routes */}
-        <Navbar user={user} />
+        <Navbar user={user} setUser={setUser} />
 
         {/* Add components here which will be re-rendered */}
         <Routes>
