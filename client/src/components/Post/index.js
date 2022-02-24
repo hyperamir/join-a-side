@@ -30,6 +30,7 @@ export default function Post(props) {
   // keeps track if the user has voted on this page
   const [voted, setVoted] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [commentTodelete, setCommentToDelete] = useState(-1);
   const params = useParams();
 
   const fetchData = async () => {
@@ -338,7 +339,7 @@ export default function Post(props) {
                       </div>
                       <div>
                         {user.user_id === comments.user_id && <button className="bg-indigo-500 text-white hover:bg-indigo-700 font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                    type="button" onClick={() => setShowModal(true)}>Delete</button>}
+                                    type="button" onClick={() => { setCommentToDelete(comments.id); setShowModal(true)}}>Delete</button>}
                       </div>
 
                       {/* Show modal on Submit */}
@@ -384,7 +385,7 @@ export default function Post(props) {
                                   <button
                                     className="bg-indigo-500 text-white hover:bg-indigo-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button"
-                                    onClick={() => { deleteComment(comments.id); setShowModal(false) }}
+                                    onClick={() => { deleteComment(commentTodelete); setShowModal(false) }}
                                   >
                                     Delete
                                   </button>
