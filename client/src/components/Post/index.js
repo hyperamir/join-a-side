@@ -337,7 +337,8 @@ export default function Post(props) {
                         <p>{localTime}</p>
                       </div>
                       <div>
-                        {user.user_id === comments.user_id && <button onClick={() => { console.log('comments.id:', comments); setShowModal(true) }}>Delete</button>}
+                        {user.user_id === comments.user_id && <button className="bg-indigo-500 text-white hover:bg-indigo-700 font-bold uppercase text-sm px-2 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                    type="button" onClick={() => setShowModal(true)}>Delete</button>}
                       </div>
 
                       {/* Show modal on Submit */}
