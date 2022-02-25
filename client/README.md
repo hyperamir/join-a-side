@@ -1,18 +1,52 @@
-# Getting Started with Create React App
+# Join a Side
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+We are excited to present to you our application, Join a Side! A casual community && social media app where users post a debatable topic with only two choices, and then vote && comment on one side to see which side gets a popular vote!
 
-## Available Scripts
+## Final Product
 
-In the project directory, you can run:
+!["screenshot of main page"](https://github.com/pos03142ap/join-a-side)
 
-### `npm start`
+!["screenshot of creat post"](https://github.com/pos03142ap/join-a-side)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+!["screenshot of questionlist"](https://github.com/pos03142ap/join-a-side)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+!["screenshot of question"](https://github.com/pos03142ap/join-a-side)
+
+!["screenshot of confirm-form"](https://github.com/pos03142ap/join-a-side)
+
+!["screenshot of delete-form"](https://github.com/pos03142ap/join-a-side)
+
+!["screenshot of login"](https://github.com/pos03142ap/join-a-side)
+
+## Setup
+
+Within the client folder: 
+1. install dependencies with `npm install`.
+2. Create .env file based on .env
+3. Run `npm start` to start app
+4. Open [http://localhost:3100](http://localhost:3100) to view it in your browser.
+
+Within the server folder:
+1. Run `bundle install` to install dependencies
+2. Run `bin/rake db:reset` to create, load and seed db
+3. Run `bin/rails s -b 0.0.0.0` to start the server
+4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+## Dependencies
+
+* React 17.x
+* React-router-dom 6.x
+* React-scripts 5.x
+* Axios
+* Sass
+* Tailwind 3.x
+* Autoprefixer 10.x
+* Postcss 8.x
+* Fontawesome for React 6.x
+* Babel-plugin-macros 3.x
+* Rails 4.2 [Rails Guide](http://guides.rubyonrails.org/v4.2/)
+* PostgreSQL 9.x
+* ...
 
 ### `npm test`
 
