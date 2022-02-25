@@ -1,6 +1,6 @@
 # Join a Side
 
-We are excited to present to you our application, Join a Side! A casual community && social media app where users post a debatable topic with only two choices, and then vote && comment on one side to see which side gets a popular vote!
+Join a Side is a casual community && social media app where users post a debatable topic with only two choices, and then vote && comment on one side to see which side gets a popular vote!
 
 ## Final Product
 
