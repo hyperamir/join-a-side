@@ -4,19 +4,19 @@ We are excited to present to you our application, Join a Side! A casual communit
 
 ## Final Product
 
-!["screenshot of main page"](https://github.com/pos03142ap/join-a-side)
+!["screenshot of main page"](https://github.com/pos03142ap/join-a-side/blob/main/docs/main.png)
 
-!["screenshot of creat post"](https://github.com/pos03142ap/join-a-side)
+!["screenshot of responsive main page"](https://github.com/pos03142ap/join-a-side/blob/main/docs/main-responsive.png)
 
-!["screenshot of questionlist"](https://github.com/pos03142ap/join-a-side)
+!["screenshot of creat post"](https://github.com/pos03142ap/join-a-side/blob/main/docs/create-post.png)
 
-!["screenshot of question"](https://github.com/pos03142ap/join-a-side)
+!["screenshot of questionlist"](https://github.com/pos03142ap/join-a-side/blob/main/docs/questionlist.png)
 
-!["screenshot of confirm-form"](https://github.com/pos03142ap/join-a-side)
+!["screenshot of question"](https://github.com/pos03142ap/join-a-side/blob/main/docs/question.png)
 
-!["screenshot of delete-form"](https://github.com/pos03142ap/join-a-side)
+!["screenshot of confirm-form"](https://github.com/pos03142ap/join-a-side/blob/main/docs/confirm-form.png)
 
-!["screenshot of login"](https://github.com/pos03142ap/join-a-side)
+!["screenshot of delete-form"](https://github.com/pos03142ap/join-a-side/blob/main/docs/delete-form.png)
 
 ## Setup
 
